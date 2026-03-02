@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<title>JACKPOT MEDIA — Новости гемблинга и беттинга</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #D4AF37;
+  --gold-dark: #A08020;
+  --bg: #0A0A0C;
+  --bg2: #111116;
+  --bg3: #18181F;
+  --bg4: #1E1E28;
+  --text: #E8E8F0;
+  --muted: #7A7A90;
+  --accent: #E84040;
+  --green: #00C97A;
+  --border: rgba(212,175,55,0.15);
+  --wrap: 1280px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; min-width: 1024px; }
+body {
+  font-family: 'Mulish', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-width: 1024px;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--gold);
+  padding: 7px 0;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px; letter-spacing: 2px;
+  color: #000; font-weight: 600;
+  position: relative; overflow: hidden;
+}
+.topbar::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.35) 50%, transparent 100%);
+  animation: shine 3s linear infinite;
+}
+@keyframes shine { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+/* ── HEADER ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(17,17,22,.96);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+}
+.hdr {
+  max-width: var(--wrap); margin: 0 auto;
+  padding: 0 32px; height: 66px;
+  display: flex; align-items: center; gap: 8px;
+}
+.logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: 26px; font-weight: 700; letter-spacing: 3px;
+  color: var(--text); text-decoration: none;
+  margin-right: 16px; white-space: nowrap; flex-shrink: 0;
+}
+.logo b { color: var(--gold); }
+nav { display: flex; align-items: center; gap: 2px; }
+nav a {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px; letter-spacing: 1.5px;
+  color: var(--muted); text-decoration: none;
+  padding: 6px 12px; border-radius: 5px;
+  transition: color .18s; white-space: nowrap; cursor: pointer;
+  position: relative;
+}
+nav a:hover { color: var(--gold); }
+nav a.on { color: var(--gold); }
+nav a.on::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 12px; right: 12px;
+  height: 2px; background: var(--gold); border-radius: 2px;
+}
+.hdr-spacer { flex: 1; }
+.btn-tg {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: linear-gradient(135deg,#2BA6D9,#1A6FAF);
+  color: #fff; font-family: 'Oswald', sans-serif;
+  font-size: 12px; letter-spacing: 1.5px; font-weight: 600;
+  padding: 8px 16px; border-radius: 6px;
+  text-decoration: none; border: none; cursor: pointer;
+  white-space: nowrap; flex-shrink: 0; transition: opacity .18s;
+  margin-left: 8px;
+}
+.btn-tg:hover { opacity: .82; }
+.btn-bot {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color: #000; font-family: 'Oswald', sans-serif;
+  font-size: 12px; letter-spacing: 1.5px; font-weight: 700;
+  padding: 8px 16px; border-radius: 6px;
+  text-decoration: none; border: none; cursor: pointer;
+  white-space: nowrap; flex-shrink: 0; transition: opacity .18s;
+}
+.btn-bot:hover { opacity: .82; }
+
+/* ── SEARCH ── */
+.search-wrap {
+  position: relative; flex-shrink: 0;
+}
+.search-input {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 8px; height: 36px;
+  padding: 0 36px 0 14px;
+  font-family: 'Mulish', sans-serif; font-size: 13px; color: var(--text);
+  width: 220px; transition: all .22s; outline: none;
+}
+.search-input::placeholder { color: var(--muted); }
+.search-input:focus { border-color: rgba(212,175,55,.5); width: 280px; background: var(--bg4); }
+.search-icon {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); font-size: 15px; pointer-events: none;
+}
+.search-results {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; z-index: 500;
+  box-shadow: 0 16px 48px rgba(0,0,0,.6);
+  max-height: 380px; overflow-y: auto;
+  display: none;
+}
+.search-results.open { display: block; }
+.sr-item {
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: background .15s;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.sr-item:last-child { border-bottom: none; }
+.sr-item:hover { background: var(--bg4); }
+.sr-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.sr-title { font-family: 'Oswald', sans-serif; font-size: 14px; margin-bottom: 3px; }
+.sr-title mark { background: rgba(212,175,55,.3); color: var(--gold); border-radius: 2px; padding: 0 2px; }
+.sr-meta { font-size: 11px; color: var(--muted); }
+.sr-section { font-size: 10px; letter-spacing: 1.5px; color: var(--gold); font-family: 'Oswald',sans-serif; padding: 8px 16px 4px; }
+.sr-empty { padding: 24px 16px; text-align: center; color: var(--muted); font-size: 14px; }
+
+/* ── LANG SWITCHER ── */
+.lang-wrap { position: relative; flex-shrink: 0; }
+.lang-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 8px; height: 36px; padding: 0 12px;
+  font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 1.5px;
+  color: var(--text); cursor: pointer; transition: border-color .18s;
+  white-space: nowrap;
+}
+.lang-btn:hover { border-color: rgba(212,175,55,.4); }
+.lang-btn .arrow { font-size: 9px; color: var(--muted); transition: transform .2s; }
+.lang-btn.open .arrow { transform: rotate(180deg); }
+.lang-drop {
+  position: absolute; top: calc(100% + 6px); right: 0;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; z-index: 500; min-width: 160px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.55);
+  display: none; overflow: hidden;
+  max-height: 420px; overflow-y: auto;
+}
+.lang-drop.open { display: block; }
+.lang-opt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px; cursor: pointer;
+  font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 1px;
+  color: var(--muted); transition: all .15s;
+}
+.lang-opt:hover { background: var(--bg4); color: var(--text); }
+.lang-opt.active { color: var(--gold); }
+.lang-flag { font-size: 18px; }
+
+/* ── TICKER ── */
+.ticker-bar {
+  background: var(--bg3); border-bottom: 1px solid var(--border);
+  height: 36px; display: flex; align-items: center;
+  overflow: hidden; position: relative;
+}
+.ticker-label {
+  position: absolute; left: 0; top: 0; bottom: 0; z-index: 2;
+  background: var(--gold); display: flex; align-items: center;
+  padding: 0 18px;
+  font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 2px;
+  color: #000; font-weight: 700;
+}
+.ticker-track {
+  display: flex; animation: tick 35s linear infinite;
+  white-space: nowrap; padding-left: 100px;
+}
+.ticker-item {
+  font-size: 12px; color: var(--muted);
+  padding: 0 36px; display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+.tdot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+@keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── SECTIONS ── */
+.sec { display: none; }
+.sec.on { display: block; }
+
+/* ── WRAP ── */
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 52px 32px; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.hero-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 90% at 72% 50%, rgba(212,175,55,.07) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 55% at 18% 75%, rgba(232,64,64,.05) 0%, transparent 55%);
+}
+.hero-grid {
+  position: absolute; inset: 0; opacity: .025;
+  background-image:
+    linear-gradient(rgba(212,175,55,1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,175,55,1) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.hero-inner {
+  position: relative; z-index: 1;
+  max-width: var(--wrap); margin: 0 auto; padding: 80px 32px 88px;
+  display: grid; grid-template-columns: 1fr 400px; gap: 64px; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(212,175,55,.3); background: rgba(212,175,55,.08);
+  border-radius: 100px; padding: 6px 18px;
+  font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 2.5px; color: var(--gold);
+  margin-bottom: 22px; animation: fadeup .5s ease both;
+}
+.hero h1 {
+  font-family: 'Oswald', sans-serif; font-size: 58px; font-weight: 700;
+  line-height: 1.04; letter-spacing: .5px; margin-bottom: 20px;
+  animation: fadeup .5s .08s ease both;
+}
+.hero h1 em { font-style: normal; color: var(--gold); }
+.hero-sub {
+  font-size: 16px; line-height: 1.75; color: var(--muted);
+  max-width: 520px; margin-bottom: 36px; animation: fadeup .5s .16s ease both;
+}
+.hero-btns { display: flex; gap: 14px; animation: fadeup .5s .24s ease both; }
+.btn-p {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color: #000; font-family: 'Oswald', sans-serif;
+  font-size: 13px; letter-spacing: 1.5px; font-weight: 700;
+  padding: 13px 28px; border-radius: 6px; border: none; cursor: pointer;
+  transition: transform .18s, box-shadow .18s;
+}
+.btn-p:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,175,55,.28); }
+.btn-s {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--text);
+  font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 1.5px; font-weight: 600;
+  padding: 13px 28px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer;
+  transition: all .18s;
+}
+.btn-s:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+.hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; animation: fadeup .5s .32s ease both; }
+.stat {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; padding: 22px 18px; text-align: center;
+}
+.stat-n { font-family: 'Oswald', sans-serif; font-size: 32px; color: var(--gold); font-weight: 700; }
+.stat-l { font-size: 11px; letter-spacing: 1px; color: var(--muted); margin-top: 5px; }
+@keyframes fadeup { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── SEC HEADER ── */
+.sec-hdr { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; }
+.sec-t { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: .5px; }
+.sec-t span { color: var(--gold); }
+.sec-line { width: 44px; height: 3px; background: var(--gold); margin-top: 7px; border-radius: 2px; }
+.see-all {
+  font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 2px; color: var(--gold);
+  background: none; border: none; cursor: pointer; transition: opacity .18s;
+}
+.see-all:hover { opacity: .65; }
+
+/* ── NEWS ── */
+.news-feat-row { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; margin-bottom: 20px; }
+.news-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.ncard {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
+  transition: transform .22s, border-color .22s; cursor: pointer;
+}
+.ncard:hover { transform: translateY(-4px); border-color: rgba(212,175,55,.38); }
+.nimg {
+  background: var(--bg4); height: 190px;
+  display: flex; align-items: center; justify-content: center; font-size: 52px;
+  position: relative; overflow: hidden;
+}
+.ncard.featured .nimg { height: 260px; }
+.nimg-bg { position: absolute; inset: 0; opacity: .18; }
+.ncat {
+  position: absolute; top: 12px; left: 12px;
+  font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 1.5px;
+  padding: 4px 10px; border-radius: 3px; font-weight: 700;
+  background: var(--gold); color: #000;
+}
+.ncat.red { background: var(--accent); color: #fff; }
+.ncat.blue { background: #2BA6D9; color: #fff; }
+.ncat.green { background: var(--green); color: #000; }
+.nbody { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+.nmeta { font-size: 11px; color: var(--muted); letter-spacing: .5px; margin-bottom: 9px; display: flex; gap: 12px; }
+.ntitle { font-family: 'Oswald', sans-serif; font-size: 17px; line-height: 1.3; font-weight: 600; flex: 1; margin-bottom: 10px; }
+.nexcerpt { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.nfoot { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); }
+.nread { color: var(--gold); font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 1px; }
+
+/* ── REVIEWS ── */
+.rev-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.rcard {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  transition: transform .22s, border-color .22s; cursor: pointer;
+}
+.rcard:hover { transform: translateY(-4px); border-color: rgba(212,175,55,.38); }
+.rhead { background: var(--bg4); padding: 22px; display: flex; align-items: center; gap: 14px; position: relative; }
+.ricon { width: 52px; height: 52px; border-radius: 10px; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+.rname { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; }
+.rtype { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.rrating { position: absolute; top: 14px; right: 14px; background: rgba(212,175,55,.12); border: 1px solid rgba(212,175,55,.28); border-radius: 5px; padding: 4px 10px; font-family: 'Oswald', sans-serif; font-size: 14px; color: var(--gold); }
+.rbody { padding: 18px; }
+.rtags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.tag { font-size: 11px; padding: 3px 10px; border-radius: 100px; border: 1px solid var(--border); color: var(--muted); }
+.tag.g { border-color: rgba(0,201,122,.3); color: var(--green); }
+.rdesc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+.rbtn { display: block; text-align: center; background: linear-gradient(135deg,var(--gold),var(--gold-dark)); color: #000; font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 1.5px; font-weight: 700; padding: 11px; border-radius: 6px; text-decoration: none; transition: opacity .18s; }
+.rbtn:hover { opacity: .82; }
+
+/* ── PROMOS ── */
+.promo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.pcard { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; transition: transform .22s, border-color .22s; }
+.pcard:hover { transform: translateY(-4px); border-color: rgba(212,175,55,.38); }
+.prib { position: absolute; top: 14px; right: -30px; background: var(--accent); color: #fff; font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 1.5px; font-weight: 700; padding: 4px 40px; transform: rotate(45deg); }
+.phead { padding: 20px 22px; background: linear-gradient(135deg,var(--bg4),var(--bg2)); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 14px; }
+.plogo { width: 46px; height: 46px; flex-shrink: 0; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.pbrand { font-family: 'Oswald', sans-serif; font-size: 16px; }
+.ptype { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.pbody { padding: 18px 22px; }
+.pamount { font-family: 'Oswald', sans-serif; font-size: 28px; color: var(--gold); font-weight: 700; margin-bottom: 6px; }
+.pdesc { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+.pcode-row { display: flex; margin-bottom: 12px; }
+.pcode { flex: 1; background: var(--bg); border: 1px solid var(--border); border-right: none; border-radius: 6px 0 0 6px; padding: 9px 14px; font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: 2px; color: var(--gold); }
+.cbtn { background: var(--gold); color: #000; border: none; border-radius: 0 6px 6px 0; padding: 9px 14px; cursor: pointer; font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 1px; font-weight: 700; transition: opacity .18s; white-space: nowrap; }
+.cbtn:hover { opacity: .82; }
+.pterms { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+.plink { display: block; text-align: center; border: 1px solid var(--border); border-radius: 6px; padding: 10px; color: var(--text); text-decoration: none; font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 1.5px; transition: all .18s; cursor: pointer; }
+.plink:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── FILTERS ── */
+.ftabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.ftab { font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 1px; padding: 7px 16px; border-radius: 100px; border: 1px solid var(--border); color: var(--muted); background: none; cursor: pointer; transition: all .18s; }
+.ftab:hover, .ftab.on { background: var(--gold); color: #000; border-color: var(--gold); }
+
+/* ── BOT ── */
+.bot-cover {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 80px 32px; text-align: center; position: relative; overflow: hidden;
+}
+.bot-cover::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 80% at 50% 50%, rgba(43,166,217,.07) 0%, transparent 68%); }
+.bot-avatar { width: 96px; height: 96px; border-radius: 22px; background: linear-gradient(135deg,#2BA6D9,#1A5FA0); display: flex; align-items: center; justify-content: center; font-size: 48px; margin: 0 auto 26px; position: relative; z-index: 1; box-shadow: 0 20px 60px rgba(43,166,217,.3); animation: glow 2.4s infinite; }
+@keyframes glow { 0%,100% { box-shadow: 0 20px 60px rgba(43,166,217,.3); } 50% { box-shadow: 0 20px 80px rgba(43,166,217,.5); } }
+.bot-cover h2 { position: relative; z-index: 1; font-family: 'Oswald', sans-serif; font-size: 44px; font-weight: 700; margin-bottom: 14px; }
+.bot-cover p { position: relative; z-index: 1; font-size: 17px; color: var(--muted); max-width: 540px; margin: 0 auto 38px; line-height: 1.7; }
+.bot-feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; max-width: 920px; margin: 56px auto 0; text-align: left; position: relative; z-index: 1; }
+.bfeat { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+.bfeat-icon { font-size: 30px; margin-bottom: 12px; }
+.bfeat-title { font-family: 'Oswald', sans-serif; font-size: 17px; margin-bottom: 8px; }
+.bfeat-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ── TG CTA ── */
+.tg-cta { background: linear-gradient(135deg,var(--bg2),var(--bg3)); border: 1px solid var(--border); border-radius: 16px; padding: 64px; text-align: center; position: relative; overflow: hidden; margin-top: 56px; }
+.tg-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 50% 80% at 50% 50%, rgba(43,166,217,.06) 0%, transparent 68%); }
+.tg-cta-icon { font-size: 76px; margin-bottom: 22px; display: block; position: relative; }
+.tg-cta h2 { font-family: 'Oswald', sans-serif; font-size: 36px; margin-bottom: 14px; position: relative; }
+.tg-cta p { font-size: 16px; color: var(--muted); max-width: 480px; margin: 0 auto 34px; line-height: 1.7; position: relative; }
+.tg-big-btn { position: relative; display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg,#2BA6D9,#1A5FA0); color: #fff; font-family: 'Oswald', sans-serif; font-size: 15px; letter-spacing: 2px; font-weight: 600; padding: 16px 36px; border-radius: 8px; text-decoration: none; box-shadow: 0 8px 32px rgba(43,166,217,.25); transition: all .2s; border: none; cursor: pointer; }
+.tg-big-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(43,166,217,.4); }
+.tg-nums { display: flex; justify-content: center; gap: 56px; margin-top: 48px; position: relative; }
+.tg-num-n { font-family: 'Oswald', sans-serif; font-size: 28px; color: #2BA6D9; }
+.tg-num-l { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* ── BOT STEPS ── */
+.bot-steps { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 32px; }
+.bstep { text-align: center; max-width: 200px; }
+.bstep-num { width: 58px; height: 58px; border-radius: 50%; background: var(--bg3); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Oswald', sans-serif; font-size: 22px; color: var(--gold); margin: 0 auto 14px; }
+.bstep-title { font-family: 'Oswald', sans-serif; font-size: 15px; margin-bottom: 6px; }
+.bstep-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.bstep-arr { font-size: 28px; color: var(--gold); line-height: 1; padding-top: 14px; }
+
+/* ── BOT BANNER ── */
+.bot-banner { display: flex; align-items: center; gap: 28px; background: var(--bg3); border: 1px solid var(--border); border-radius: 14px; padding: 32px 36px; margin-top: 44px; }
+.bot-banner-icon { font-size: 52px; flex-shrink: 0; }
+.bot-banner-text { flex: 1; }
+.bot-banner-title { font-family: 'Oswald', sans-serif; font-size: 22px; margin-bottom: 6px; }
+.bot-banner-desc { font-size: 14px; color: var(--muted); }
+
+/* ── FOOTER ── */
+footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 56px 32px 28px; margin-top: 80px; }
+.foot-inner { max-width: var(--wrap); margin: 0 auto; }
+.foot-top { display: grid; grid-template-columns: 2.4fr 1fr 1fr 1fr; gap: 44px; padding-bottom: 36px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+.foot-logo { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+.foot-logo b { color: var(--gold); }
+.foot-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.foot-social { display: flex; gap: 10px; margin-top: 18px; }
+.foot-soc { width: 38px; height: 38px; border-radius: 8px; background: #2BA6D9; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; text-decoration: none; transition: opacity .18s; }
+.foot-soc:hover { opacity: .78; }
+.foot-col-title { font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 2px; color: var(--gold); margin-bottom: 16px; }
+.foot-links { list-style: none; }
+.foot-links li { margin-bottom: 9px; }
+.foot-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .18s; cursor: pointer; }
+.foot-links a:hover { color: var(--text); }
+.foot-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); }
+.age-badge { display: flex; align-items: center; gap: 8px; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 6px 14px; font-family: 'Oswald', sans-serif; font-size: 12px; }
+.age18 { background: var(--accent); color: #fff; font-weight: 700; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">⚠&nbsp; МАТЕРИАЛЫ ПРЕДНАЗНАЧЕНЫ ДЛЯ ЛИЦ СТАРШЕ 18 ЛЕТ &nbsp;•&nbsp; АЗАРТНЫЕ ИГРЫ НЕСУТ ФИНАНСОВЫЕ РИСКИ &nbsp;•&nbsp; ИГРАЙТЕ ОТВЕТСТВЕННО</div>
+
+<header>
+  <div class="hdr">
+    <a class="logo" onclick="showSec('news')">JACKPOT<b>MEDIA</b></a>
+    <nav>
+      <a class="on" onclick="showSec('news');setOn(this)">НОВОСТИ</a>
+      <a onclick="showSec('slots');setOn(this)">СЛОТЫ</a>
+      <a onclick="showSec('bk');setOn(this)">БК</a>
+      <a onclick="showSec('casino');setOn(this)">КАЗИНО</a>
+      <a onclick="showSec('promos');setOn(this)">БОНУСЫ</a>
+    </nav>
+    <div class="hdr-spacer"></div>
+
+    <!-- SEARCH -->
+    <div class="search-wrap" id="searchWrap">
+      <input class="search-input" id="searchInput" type="text" placeholder="Поиск по сайту..." autocomplete="off"
+        oninput="doSearch(this.value)" onfocus="toggleSearchDrop(true)" />
+      <span class="search-icon">🔍</span>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- LANG -->
+    <div class="lang-wrap" id="langWrap">
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">
+        <span id="langFlag">🇷🇺</span>
+        <span id="langCode">RU</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="lang-drop" id="langDrop">
+        <div class="lang-opt active" onclick="setLang('ru')"><span class="lang-flag">🇷🇺</span> Русский</div>
+        <div class="lang-opt" onclick="setLang('en')"><span class="lang-flag">🇬🇧</span> English</div>
+        <div class="lang-opt" onclick="setLang('ua')"><span class="lang-flag">🇺🇦</span> Українська</div>
+        <div class="lang-opt" onclick="setLang('kz')"><span class="lang-flag">🇰🇿</span> Қазақша</div>
+        <div class="lang-opt" onclick="setLang('uz')"><span class="lang-flag">🇺🇿</span> O'zbek</div>
+        <div class="lang-opt" onclick="setLang('pl')"><span class="lang-flag">🇵🇱</span> Polski</div>
+        <div class="lang-opt" onclick="setLang('de')"><span class="lang-flag">🇩🇪</span> Deutsch</div>
+        <div class="lang-opt" onclick="setLang('fr')"><span class="lang-flag">🇫🇷</span> Français</div>
+        <div class="lang-opt" onclick="setLang('pt')"><span class="lang-flag">🇧🇷</span> Português</div>
+        <div class="lang-opt" onclick="setLang('es')"><span class="lang-flag">🇨🇱</span> Español</div>
+        <div class="lang-opt" onclick="setLang('ca')"><span class="lang-flag">🇨🇦</span> Canadian</div>
+        <div class="lang-opt" onclick="setLang('hi')"><span class="lang-flag">🇮🇳</span> हिन्दी</div>
+        <div class="lang-opt" onclick="setLang('tr')"><span class="lang-flag">🇹🇷</span> Türkçe</div>
+      </div>
+    </div>
+
+    <button class="btn-bot" id="hdrBotBtn" onclick="showSec('bot');setOn(null)">🤖 БОТ-ПОДБОРЩИК</button>
+    <a class="btn-tg" id="hdrTgBtn" href="https://t.me/your_channel" target="_blank">✈️ TG‑КАНАЛ</a>
+  </div>
+</header>
+
+<div class="ticker-bar">
+  <div class="ticker-label">LIVE</div>
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="tdot"></span>1xBet анонсировал турниры с призовым фондом $500 000</div>
+    <div class="ticker-item"><span class="tdot"></span>Betway получил лицензии в 3 новых юрисдикциях</div>
+    <div class="ticker-item"><span class="tdot"></span>Pragmatic Play выпустил 5 новых слотов в феврале 2025</div>
+    <div class="ticker-item"><span class="tdot"></span>Регулятор UK ужесточил правила для онлайн-казино</div>
+    <div class="ticker-item"><span class="tdot"></span>Pin-Up Casino запустил кэшбек-программу до 15%</div>
+    <div class="ticker-item"><span class="tdot"></span>Рынок онлайн-беттинга вырос на 23% в 2024 году</div>
+    <div class="ticker-item"><span class="tdot"></span>NoLimit City анонсировал слот с джекпотом $10M</div>
+    <div class="ticker-item"><span class="tdot"></span>1xBet анонсировал турниры с призовым фондом $500 000</div>
+    <div class="ticker-item"><span class="tdot"></span>Betway получил лицензии в 3 новых юрисдикциях</div>
+    <div class="ticker-item"><span class="tdot"></span>Pragmatic Play выпустил 5 новых слотов в феврале 2025</div>
+    <div class="ticker-item"><span class="tdot"></span>Регулятор UK ужесточил правила для онлайн-казино</div>
+    <div class="ticker-item"><span class="tdot"></span>Pin-Up Casino запустил кэшбек-программу до 15%</div>
+    <div class="ticker-item"><span class="tdot"></span>Рынок онлайн-беттинга вырос на 23% в 2024 году</div>
+    <div class="ticker-item"><span class="tdot"></span>NoLimit City анонсировал слот с джекпотом $10M</div>
+  </div>
+</div>
+
+<!-- ═══ НОВОСТИ ═══ -->
+<div class="sec on" id="sec-news">
+  <div class="hero">
+    <div class="hero-glow"></div><div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">🔥 ГЛАВНЫЙ ИСТОЧНИК НОВОСТЕЙ ГЕМБЛИНГА</div>
+        <h1>Всё о гемблинге<br>и <em>беттинге</em> — здесь</h1>
+        <p class="hero-sub">Актуальные новости, честные обзоры казино, букмекеров и слотов. Эксклюзивные бонусы и промокоды от лучших платформ.</p>
+        <div class="hero-btns">
+          <button class="btn-p" id="heroBtnP" onclick="showSec('promos')">🎁 Все бонусы</button>
+          <button class="btn-s" id="heroBtnS" onclick="showSec('bot')">🤖 Подобрать слот</button>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-n">500+</div><div class="stat-l">ОБЗОРОВ КАЗИНО</div></div>
+        <div class="stat"><div class="stat-n">2.4K</div><div class="stat-l">ПРОМОКОДОВ</div></div>
+        <div class="stat"><div class="stat-n">150+</div><div class="stat-l">ОБЗОРОВ СЛОТОВ</div></div>
+        <div class="stat"><div class="stat-n">89K</div><div class="stat-l">ЧИТАТЕЛЕЙ</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="sec-hdr">
+      <div><div class="sec-t" id="sec-news-title">Главные <span>новости</span></div><div class="sec-line"></div></div>
+      <button class="see-all">ВСЕ НОВОСТИ →</button>
+    </div>
+    <div class="news-feat-row">
+      <a class="ncard featured" href="#">
+        <div class="nimg"><div class="nimg-bg" style="background:linear-gradient(135deg,#D4AF37,#8B6914)"></div>🏆<div class="ncat">ГЛАВНОЕ</div></div>
+        <div class="nbody">
+          <div class="nmeta"><span>📅 24 февраля 2025</span><span>👁 12 450</span></div>
+          <div class="ntitle">Крупнейший джекпот в истории: €17 млн на слоте Mega Moolah выиграл игрок из Германии</div>
+          <div class="nexcerpt">34‑летний инженер из Мюнхена поставил €0.50 и сорвал рекордный джекпот. Третий по величине выигрыш в истории онлайн-гемблинга...</div>
+        </div>
+        <div class="nfoot"><span>5 мин. чтения</span><span class="nread">ЧИТАТЬ →</span></div>
+      </a>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <a class="ncard" href="#">
+          <div class="nimg" style="height:155px"><div class="nimg-bg" style="background:linear-gradient(135deg,#E84040,#7A0A0A)"></div>⚡<div class="ncat red">БЕТТИНГ</div></div>
+          <div class="nbody"><div class="nmeta"><span>📅 23 февраля</span><span>👁 8 200</span></div><div class="ntitle">1xBet запустил Cash Out с лимитом $50 000</div></div>
+          <div class="nfoot"><span>3 мин.</span><span class="nread">ЧИТАТЬ →</span></div>
+        </a>
+        <a class="ncard" href="#">
+          <div class="nimg" style="height:155px"><div class="nimg-bg" style="background:linear-gradient(135deg,#00C97A,#005A30)"></div>🎰<div class="ncat green">КАЗИНО</div></div>
+          <div class="nbody"><div class="nmeta"><span>📅 22 февраля</span><span>👁 5 600</span></div><div class="ntitle">EU обязал казино ввести лимиты потерь для игроков</div></div>
+          <div class="nfoot"><span>4 мин.</span><span class="nread">ЧИТАТЬ →</span></div>
+        </a>
+      </div>
+    </div>
+    <div class="sec-hdr" style="margin-top:44px">
+      <div><div class="sec-t" id="sec-fresh-title">Свежие <span>материалы</span></div><div class="sec-line"></div></div>
+    </div>
+    <div class="news-grid">
+      <a class="ncard" href="#"><div class="nimg"><div class="nimg-bg" style="background:linear-gradient(135deg,#5B2BA6,#2B0A7A)"></div>🎲<div class="ncat">ИНДУСТРИЯ</div></div><div class="nbody"><div class="nmeta"><span>📅 21 февраля</span><span>👁 4 100</span></div><div class="ntitle">Pragmatic Play выпустил 3 новых слота с механикой Megaways</div><div class="nexcerpt">Провайдер расширяет хитовую линейку с новыми множителями...</div></div><div class="nfoot"><span>3 мин.</span><span class="nread">ЧИТАТЬ →</span></div></a>
+      <a class="ncard" href="#"><div class="nimg"><div class="nimg-bg" style="background:linear-gradient(135deg,#D4AF37,#6B4A00)"></div>⚽<div class="ncat">СПОРТ</div></div><div class="nbody"><div class="nmeta"><span>📅 20 февраля</span><span>👁 9 300</span></div><div class="ntitle">Лига Чемпионов: лучшие ставки и котировки на плей-офф 2025</div><div class="nexcerpt">Аналитики рекомендуют азиатские гандикапы на топ-матчи...</div></div><div class="nfoot"><span>6 мин.</span><span class="nread">ЧИТАТЬ →</span></div></a>
+      <a class="ncard" href="#"><div class="nimg"><div class="nimg-bg" style="background:linear-gradient(135deg,#2BA6D9,#0A3A5A)"></div>📋<div class="ncat blue">РЕГУЛЯЦИЯ</div></div><div class="nbody"><div class="nmeta"><span>📅 19 февраля</span><span>👁 3 700</span></div><div class="ntitle">Новые правила KYC для онлайн-казино: что изменится в 2025</div><div class="nexcerpt">Регуляторы ужесточают требования к верификации игроков...</div></div><div class="nfoot"><span>5 мин.</span><span class="nread">ЧИТАТЬ →</span></div></a>
+    </div>
+    <div class="tg-cta">
+      <span class="tg-cta-icon">✈️</span>
+      <h2 id="tgcta-title">Подпишись на <span style="color:#2BA6D9">Telegram‑канал</span></h2>
+      <p data-i18n="tgcta-desc">Ежедневные обзоры, эксклюзивные бонусы и горячие новости — первыми в нашем канале.</p>
+      <a class="tg-big-btn" data-i18n="tgcta-btn" href="https://t.me/your_channel" target="_blank">✈️ ПОДПИСАТЬСЯ НА КАНАЛ</a>
+      <div class="tg-nums">
+        <div><div class="tg-num-n" data-tgnum="0">47K+</div><div class="tg-num-l" data-tgnuml="0">Подписчиков</div></div>
+        <div><div class="tg-num-n" data-tgnum="1">Каждый день</div><div class="tg-num-l" data-tgnuml="1">Новые материалы</div></div>
+        <div><div class="tg-num-n" data-tgnum="2">Бесплатно</div><div class="tg-num-l" data-tgnuml="2">Полный доступ</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ СЛОТЫ ═══ -->
+<div class="sec" id="sec-slots">
+  <div class="wrap">
+    <div class="sec-hdr"><div><div class="sec-t" id="sec-slots-title">Обзоры <span>слотов</span></div><div class="sec-line"></div></div></div>
+    <div class="ftabs">
+      <button class="ftab on" onclick="setFtab(this)">Все</button>
+      <button class="ftab" onclick="setFtab(this)">Megaways</button>
+      <button class="ftab" onclick="setFtab(this)">Jackpot</button>
+      <button class="ftab" onclick="setFtab(this)">Pragmatic Play</button>
+      <button class="ftab" onclick="setFtab(this)">NetEnt</button>
+      <button class="ftab" onclick="setFtab(this)">Crash‑игры</button>
+      <button class="ftab" onclick="setFtab(this)">Книжки</button>
+    </div>
+    <div class="rev-grid">
+      <div class="rcard"><div class="rhead"><div class="ricon">🎰</div><div><div class="rname">Gates of Olympus</div><div class="rtype">Pragmatic Play • 2021</div></div><div class="rrating">⭐ 9.4</div></div><div class="rbody"><div class="rtags"><span class="tag">RTP 96.5%</span><span class="tag g">×500 макс</span><span class="tag">Megaways</span></div><div class="rdesc">Зевс разбрасывает множители, Tumble механика создаёт цепные выигрыши. Высокая волатильность, культовый слот стримеров.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">📚</div><div><div class="rname">Book of Dead</div><div class="rtype">Play'n GO • 2016</div></div><div class="rrating">⭐ 9.1</div></div><div class="rbody"><div class="rtags"><span class="tag">RTP 96.21%</span><span class="tag g">×5000 макс</span><span class="tag">Классика</span></div><div class="rdesc">Культовая книжка с Рихом Уайлдом. Фриспины с расширяющимся символом. Легенда жанра.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">🍭</div><div><div class="rname">Sweet Bonanza</div><div class="rtype">Pragmatic Play • 2019</div></div><div class="rrating">⭐ 9.0</div></div><div class="rbody"><div class="rtags"><span class="tag">RTP 96.51%</span><span class="tag g">×21175 макс</span><span class="tag">Cluster</span></div><div class="rdesc">Конфетный слот с механикой Tumble. Бомбы-множители в фриспинах могут давать баснословные выигрыши.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">🐟</div><div><div class="rname">Big Bass Bonanza</div><div class="rtype">Pragmatic Play • 2020</div></div><div class="rrating">⭐ 8.8</div></div><div class="rbody"><div class="rtags"><span class="tag">RTP 96.71%</span><span class="tag g">Низкая волат.</span><span class="tag">Рыбалка</span></div><div class="rdesc">Рыбак-вайлд собирает рыбу для фриспинов с денежными призами. Хорош для новичков.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">💎</div><div><div class="rname">Starburst</div><div class="rtype">NetEnt • 2013</div></div><div class="rrating">⭐ 8.5</div></div><div class="rbody"><div class="rtags"><span class="tag">RTP 96.09%</span><span class="tag">Классика</span><span class="tag">Простой</span></div><div class="rdesc">Абсолютная классика с расширяющимися вайлдами. Популярен у новичков за простоту.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">🐶</div><div><div class="rname">The Dog House</div><div class="rtype">Pragmatic Play • 2019</div></div><div class="rrating">⭐ 8.7</div></div><div class="rbody"><div class="rtags"><span class="tag">RTP 96.51%</span><span class="tag g">Sticky Wilds</span><span class="tag">Высок. волат.</span></div><div class="rdesc">Sticky wild и множители до ×9. Мощные фриспины с накапливаемыми вайлдами.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+    </div>
+    <div class="bot-banner">
+      <div class="bot-banner-icon">🤖</div>
+      <div class="bot-banner-text">
+        <div class="bot-banner-title" data-i18n="bot-banner-title">Не знаешь какой слот выбрать?</div>
+        <div class="bot-banner-desc" data-i18n="bot-banner-desc">Наш Telegram‑бот подберёт слот по волатильности, теме, провайдеру и RTP — за 30 секунд</div>
+      </div>
+      <button class="btn-p" data-i18n="bot-banner-btn" onclick="showSec('bot')">🤖 ОТКРЫТЬ БОТА</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ БК ═══ -->
+<div class="sec" id="sec-bk">
+  <div class="wrap">
+    <div class="sec-hdr"><div><div class="sec-t" id="sec-bk-title">Обзоры <span>букмекеров</span></div><div class="sec-line"></div></div></div>
+    <div class="ftabs">
+      <button class="ftab on" onclick="setFtab(this)">Все</button>
+      <button class="ftab" onclick="setFtab(this)">Топ‑рейтинг</button>
+      <button class="ftab" onclick="setFtab(this)">С бонусом</button>
+      <button class="ftab" onclick="setFtab(this)">Live</button>
+      <button class="ftab" onclick="setFtab(this)">Киберспорт</button>
+    </div>
+    <div class="rev-grid">
+      <div class="rcard"><div class="rhead"><div class="ricon">⚡</div><div><div class="rname">1xBet</div><div class="rtype">Лицензия Кюрасао • С 2007</div></div><div class="rrating">⭐ 9.2</div></div><div class="rbody"><div class="rtags"><span class="tag g">Бонус до €150</span><span class="tag">Live</span><span class="tag">1000+ рынков</span></div><div class="rdesc">Один из крупнейших букмекеров мира. Огромная линия событий, высокие коэффициенты, удобный мобильный клиент.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">🏅</div><div><div class="rname">Betway</div><div class="rtype">Лицензия UKGC • С 2006</div></div><div class="rrating">⭐ 9.0</div></div><div class="rbody"><div class="rtags"><span class="tag g">Бонус €30</span><span class="tag">Надёжный</span><span class="tag">Спорт</span></div><div class="rdesc">Надёжный европейский букмекер. Отличные котировки на футбол и теннис. Быстрые выплаты.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">🎯</div><div><div class="rname">Mostbet</div><div class="rtype">Лицензия Кюрасао</div></div><div class="rrating">⭐ 8.6</div></div><div class="rbody"><div class="rtags"><span class="tag g">Бонус 100%</span><span class="tag">Киберспорт</span><span class="tag">Крипто</span></div><div class="rdesc">Популярен в СНГ. Хорошая роспись на киберспорт и поддержка криптовалют.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">🔥</div><div><div class="rname">Melbet</div><div class="rtype">Лицензия Кюрасао</div></div><div class="rrating">⭐ 8.4</div></div><div class="rbody"><div class="rtags"><span class="tag g">Фрибет €30</span><span class="tag">Экспрессы</span><span class="tag">Тото</span></div><div class="rdesc">Щедрая бонусная программа и акции для постоянных игроков. Хорошая роспись.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ КАЗИНО ═══ -->
+<div class="sec" id="sec-casino">
+  <div class="wrap">
+    <div class="sec-hdr"><div><div class="sec-t" id="sec-casino-title">Обзоры <span>казино</span></div><div class="sec-line"></div></div></div>
+    <div class="ftabs">
+      <button class="ftab on" onclick="setFtab(this)">Все</button>
+      <button class="ftab" onclick="setFtab(this)">Топ‑рейтинг</button>
+      <button class="ftab" onclick="setFtab(this)">Крипто</button>
+      <button class="ftab" onclick="setFtab(this)">Без KYC</button>
+      <button class="ftab" onclick="setFtab(this)">Live‑дилеры</button>
+    </div>
+    <div class="rev-grid">
+      <div class="rcard"><div class="rhead"><div class="ricon">👑</div><div><div class="rname">Pin-Up Casino</div><div class="rtype">Казино • С 2016</div></div><div class="rrating">⭐ 9.3</div></div><div class="rbody"><div class="rtags"><span class="tag g">100% + 250 ФС</span><span class="tag">3000+ слотов</span><span class="tag">Live</span></div><div class="rdesc">Одно из лучших казино для СНГ. Огромная коллекция слотов, щедрый приветственный бонус.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">💎</div><div><div class="rname">LeoVegas</div><div class="rtype">Лицензия Мальты</div></div><div class="rrating">⭐ 9.1</div></div><div class="rbody"><div class="rtags"><span class="tag g">200 ФС</span><span class="tag">Мобильный</span><span class="tag">Надёжный</span></div><div class="rdesc">Европейский лидер, лауреат «Лучшее мобильное казино» нескольких изданий 2024.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">🚀</div><div><div class="rname">Stake</div><div class="rtype">Крипто-казино • С 2017</div></div><div class="rrating">⭐ 9.0</div></div><div class="rbody"><div class="rtags"><span class="tag g">Крипто</span><span class="tag g">Без KYC</span><span class="tag">Originals</span></div><div class="rdesc">Лучшее криптоказино с уникальными Stake Originals. Мгновенные транзакции и анонимность.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">⭐</div><div><div class="rname">22Bet Casino</div><div class="rtype">Казино • С 2018</div></div><div class="rrating">⭐ 8.7</div></div><div class="rbody"><div class="rtags"><span class="tag g">Бонус €300</span><span class="tag">5000+ игр</span><span class="tag">Быстро</span></div><div class="rdesc">Огромный выбор от 80+ провайдеров. Быстрые выплаты и поддержка 24/7.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">🎭</div><div><div class="rname">BitStarz</div><div class="rtype">Крипто-казино • С 2014</div></div><div class="rrating">⭐ 9.2</div></div><div class="rbody"><div class="rtags"><span class="tag g">20 ФС без депо</span><span class="tag">BTC/ETH</span><span class="tag">Пионер</span></div><div class="rdesc">Пионер крипто-казино. 20 фриспинов без депозита при регистрации.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+      <div class="rcard"><div class="rhead"><div class="ricon">🏆</div><div><div class="rname">Jackpot City</div><div class="rtype">Лицензия Мальты • С 1998</div></div><div class="rrating">⭐ 8.9</div></div><div class="rbody"><div class="rtags"><span class="tag g">Бонус €1600</span><span class="tag">Джекпоты</span><span class="tag">25 лет</span></div><div class="rdesc">Легенда индустрии с 25-летней историей. Специализируется на прогрессивных джекпотах.</div><a class="rbtn" href="#">ЧИТАТЬ ОБЗОР</a></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ БОНУСЫ ═══ -->
+<div class="sec" id="sec-promos">
+  <div class="wrap">
+    <div class="sec-hdr"><div><div class="sec-t" id="sec-promos-title">Бонусы и <span>промокоды</span></div><div class="sec-line"></div></div></div>
+    <div class="ftabs">
+      <button class="ftab on" onclick="setFtab(this)">Все</button>
+      <button class="ftab" onclick="setFtab(this)">Казино</button>
+      <button class="ftab" onclick="setFtab(this)">Букмекеры</button>
+      <button class="ftab" onclick="setFtab(this)">Без депозита</button>
+      <button class="ftab" onclick="setFtab(this)">Фриспины</button>
+      <button class="ftab" onclick="setFtab(this)">Кэшбек</button>
+    </div>
+    <div class="promo-grid">
+      <div class="pcard"><div class="prib">ТОП</div><div class="phead"><div class="plogo">👑</div><div><div class="pbrand">Pin-Up Casino</div><div class="ptype">Приветственный бонус</div></div></div><div class="pbody"><div class="pamount">100% + 250 ФС</div><div class="pdesc">Удвоение первого депозита до €500 + 250 фриспинов на Gates of Olympus</div><div class="pcode-row"><div class="pcode" id="c1">JACKPOT2025</div><button class="cbtn" onclick="copyCode('c1',this)">КОПИРОВАТЬ</button></div><div class="pterms">Вейджер ×40 &nbsp;•&nbsp; Мин. депозит €20 &nbsp;•&nbsp; 30 дней</div><a class="plink" href="#" target="_blank">ПОЛУЧИТЬ БОНУС</a></div></div>
+      <div class="pcard"><div class="phead"><div class="plogo">🚀</div><div><div class="pbrand">Stake Casino</div><div class="ptype">Кэшбек акция</div></div></div><div class="pbody"><div class="pamount">15% Кэшбек</div><div class="pdesc">Еженедельный кэшбек до 15% на все проигрыши без вейджера</div><div class="pcode-row"><div class="pcode" id="c2">STAKEBACK</div><button class="cbtn" onclick="copyCode('c2',this)">КОПИРОВАТЬ</button></div><div class="pterms">Без вейджера &nbsp;•&nbsp; Каждый понедельник</div><a class="plink" href="#" target="_blank">ПОЛУЧИТЬ БОНУС</a></div></div>
+      <div class="pcard"><div class="prib">HOT</div><div class="phead"><div class="plogo">⚡</div><div><div class="pbrand">1xBet</div><div class="ptype">Спортивный бонус</div></div></div><div class="pbody"><div class="pamount">€150 на первый депо</div><div class="pdesc">100% на первый депозит для ставок на спорт без ограничений</div><div class="pcode-row"><div class="pcode" id="c3">1XJACK150</div><button class="cbtn" onclick="copyCode('c3',this)">КОПИРОВАТЬ</button></div><div class="pterms">Вейджер ×5 в экспрессах &nbsp;•&nbsp; Мин. €10</div><a class="plink" href="#" target="_blank">ПОЛУЧИТЬ БОНУС</a></div></div>
+      <div class="pcard"><div class="phead"><div class="plogo">🎭</div><div><div class="pbrand">BitStarz</div><div class="ptype">Без депозита</div></div></div><div class="pbody"><div class="pamount">20 ФС бесплатно</div><div class="pdesc">20 фриспинов сразу после регистрации без пополнения счёта</div><div class="pcode-row"><div class="pcode" id="c4">BITZREG20</div><button class="cbtn" onclick="copyCode('c4',this)">КОПИРОВАТЬ</button></div><div class="pterms">Вейджер ×40 &nbsp;•&nbsp; Макс. вывод €100</div><a class="plink" href="#" target="_blank">ПОЛУЧИТЬ БОНУС</a></div></div>
+      <div class="pcard"><div class="phead"><div class="plogo">💎</div><div><div class="pbrand">LeoVegas</div><div class="ptype">Пакет бонусов</div></div></div><div class="pbody"><div class="pamount">€1000 + 200 ФС</div><div class="pdesc">Приветственный пакет на 4 депозита с бесплатными вращениями</div><div class="pcode-row"><div class="pcode" id="c5">LEOVIP1000</div><button class="cbtn" onclick="copyCode('c5',this)">КОПИРОВАТЬ</button></div><div class="pterms">Вейджер ×35 &nbsp;•&nbsp; Мин. депозит €20</div><a class="plink" href="#" target="_blank">ПОЛУЧИТЬ БОНУС</a></div></div>
+      <div class="pcard"><div class="phead"><div class="plogo">🎯</div><div><div class="pbrand">Melbet</div><div class="ptype">Фрибет</div></div></div><div class="pbody"><div class="pamount">Фрибет €30</div><div class="pdesc">Бесплатная ставка €30 при первом пополнении от €10</div><div class="pcode-row"><div class="pcode" id="c6">MELJACK30</div><button class="cbtn" onclick="copyCode('c6',this)">КОПИРОВАТЬ</button></div><div class="pterms">КЕФ от 1.50 &nbsp;•&nbsp; Действует 7 дней</div><a class="plink" href="#" target="_blank">ПОЛУЧИТЬ БОНУС</a></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ БОТ ═══ -->
+<div class="sec" id="sec-bot">
+  <div class="bot-cover">
+    <div class="bot-avatar">🤖</div>
+    <h2 id="bot-title">Бот подбора <span style="color:#2BA6D9">слотов</span></h2>
+    <p data-i18n="bot-desc">Расскажи боту свои предпочтения — и за 30 секунд он найдёт идеальный слот именно для тебя</p>
+    <a class="tg-big-btn" data-i18n="bot-open-btn" href="https://t.me/your_slot_bot" target="_blank">✈️ ОТКРЫТЬ БОТА В TELEGRAM</a>
+    <div class="bot-feat-grid">
+      <div class="bfeat"><div class="bfeat-icon">🎰</div><div class="bfeat-title">Подбор по теме</div><div class="bfeat-desc">Египет, фрукты, фэнтези, Book-слоты, мифология — бот знает тысячи тематик</div></div>
+      <div class="bfeat"><div class="bfeat-icon">📊</div><div class="bfeat-title">Подбор по RTP</div><div class="bfeat-desc">Укажи желаемый RTP и волатильность — получи список подходящих слотов</div></div>
+      <div class="bfeat"><div class="bfeat-icon">🏭</div><div class="bfeat-title">По провайдеру</div><div class="bfeat-desc">Pragmatic, NetEnt, Push Gaming, NoLimit City и 50+ других провайдеров</div></div>
+      <div class="bfeat"><div class="bfeat-icon">⚡</div><div class="bfeat-title">Механики</div><div class="bfeat-desc">Megaways, Cluster, Tumble, Sticky Wilds, Buy Bonus — выбирай любимые</div></div>
+      <div class="bfeat"><div class="bfeat-icon">💸</div><div class="bfeat-title">Под бюджет</div><div class="bfeat-desc">Укажи размер ставки — бот подберёт слоты с подходящими минимальными ставками</div></div>
+      <div class="bfeat"><div class="bfeat-icon">⭐</div><div class="bfeat-title">Отзывы игроков</div><div class="bfeat-desc">Реальные оценки от нашего сообщества по каждому слоту</div></div>
+    </div>
+  </div>
+  <div class="wrap" style="text-align:center">
+    <div style="font-family:'Oswald',sans-serif;font-size:24px;margin-bottom:32px" id="bot-how">Как это <span style="color:var(--gold)">работает?</span></div>
+    <div class="bot-steps">
+      <div class="bstep"><div class="bstep-num">1</div><div class="bstep-title">Открой бота</div><div class="bstep-desc">Нажми /start в нашем Telegram‑боте</div></div>
+      <div class="bstep-arr">→</div>
+      <div class="bstep"><div class="bstep-num">2</div><div class="bstep-title">Ответь на вопросы</div><div class="bstep-desc">Выбирай параметры слота через кнопки‑меню</div></div>
+      <div class="bstep-arr">→</div>
+      <div class="bstep"><div class="bstep-num">3</div><div class="bstep-title">Получи результат</div><div class="bstep-desc">Топ‑5 слотов с обзорами и где играть</div></div>
+    </div>
+    <div style="margin-top:48px"><a class="tg-big-btn" data-i18n="bot-pick-btn" href="https://t.me/your_slot_bot" target="_blank">🎰 ПОДОБРАТЬ СЛОТ СЕЙЧАС</a></div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div>
+        <div class="foot-logo">JACKPOT<b>MEDIA</b></div>
+        <div class="foot-desc" data-i18n="foot-desc">Ведущий медиа‑ресурс о гемблинге и беттинге. Честные обзоры, актуальные новости и эксклюзивные промокоды. Только проверенная информация.</div>
+        <div class="foot-social"><a class="foot-soc" href="https://t.me/your_channel" target="_blank">✈️</a></div>
+      </div>
+      <div>
+        <div class="foot-col-title">РАЗДЕЛЫ</div>
+        <ul class="foot-links">
+          <li><a onclick="showSec('news')">Новости</a></li>
+          <li><a onclick="showSec('slots')">Обзоры слотов</a></li>
+          <li><a onclick="showSec('bk')">Букмекеры</a></li>
+          <li><a onclick="showSec('casino')">Казино</a></li>
+          <li><a onclick="showSec('promos')">Бонусы и промокоды</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-col-title">СЕРВИСЫ</div>
+        <ul class="foot-links">
+          <li><a onclick="showSec('bot')">Бот подбора слотов</a></li>
+          <li><a href="https://t.me/your_channel" target="_blank">Telegram‑канал</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-col-title">ИНФОРМАЦИЯ</div>
+        <ul class="foot-links">
+          <li><a href="#">О проекте</a></li>
+          <li><a href="#">Реклама</a></li>
+          <li><a href="#">Конфиденциальность</a></li>
+          <li><a href="#">Ответственная игра</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div data-i18n="copyright">© 2025 JackpotMedia. Все права защищены.</div>
+      <div class="age-badge"><span class="age18">18+</span> <span data-i18n="age18">Только для совершеннолетних</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════ */
+function showSec(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.getElementById('sec-' + id).classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function setOn(el) {
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('on'));
+  if (el) el.classList.add('on');
+}
+function setFtab(el) {
+  el.closest('.ftabs').querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+}
+function copyCode(id, btn) {
+  navigator.clipboard.writeText(document.getElementById(id).textContent.trim()).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓';
+    btn.style.background = '#00C97A';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+  });
+}
+
+/* ════════════════════════════════════════
+   SEARCH INDEX
+════════════════════════════════════════ */
+const SEARCH_INDEX = [
+  // NEWS
+  { sec:'news', icon:'🏆', title:'Крупнейший джекпот €17 млн на слоте Mega Moolah', meta:'Главное • 24 фев 2025', tags:'джекпот мега мoolah казино выигрыш' },
+  { sec:'news', icon:'⚡', title:'1xBet запустил Cash Out с лимитом $50 000', meta:'Беттинг • 23 фев 2025', tags:'1xbet cashout беттинг лимит вывод' },
+  { sec:'news', icon:'🎰', title:'EU обязал казино ввести лимиты потерь', meta:'Казино • 22 фев 2025', tags:'eu казино лимиты регуляция европа' },
+  { sec:'news', icon:'🎲', title:'Pragmatic Play выпустил 3 новых слота Megaways', meta:'Индустрия • 21 фев 2025', tags:'pragmatic play megaways слоты новинки' },
+  { sec:'news', icon:'⚽', title:'Лига Чемпионов: лучшие ставки на плей-офф 2025', meta:'Спорт • 20 фев 2025', tags:'лига чемпионов ставки футбол плей-офф котировки' },
+  { sec:'news', icon:'📋', title:'Новые правила KYC для онлайн-казино в 2025', meta:'Регуляция • 19 фев 2025', tags:'kyc верификация казино правила документы' },
+  // SLOTS
+  { sec:'slots', icon:'🎰', title:'Gates of Olympus — обзор слота', meta:'RTP 96.5% • Pragmatic Play', tags:'gates olympus зевс прагматик множители megaways волатильность' },
+  { sec:'slots', icon:'📚', title:'Book of Dead — обзор слота', meta:'RTP 96.21% • Play\'n GO', tags:'book of dead книга мертвых рих уайлд фриспины египет' },
+  { sec:'slots', icon:'🍭', title:'Sweet Bonanza — обзор слота', meta:'RTP 96.51% • Pragmatic Play', tags:'sweet bonanza конфеты tumble множители фриспины' },
+  { sec:'slots', icon:'🐟', title:'Big Bass Bonanza — обзор слота', meta:'RTP 96.71% • Pragmatic Play', tags:'big bass рыбалка рыба вайлд бонус' },
+  { sec:'slots', icon:'💎', title:'Starburst — обзор слота', meta:'RTP 96.09% • NetEnt', tags:'starburst netent классика вайлды простой' },
+  { sec:'slots', icon:'🐶', title:'The Dog House — обзор слота', meta:'RTP 96.51% • Pragmatic Play', tags:'dog house собаки sticky wilds множители' },
+  // BK
+  { sec:'bk', icon:'⚡', title:'1xBet — обзор букмекера', meta:'Бонус €150 • Рейтинг 9.2', tags:'1xbet букмекер бонус live ставки коэффициенты' },
+  { sec:'bk', icon:'🏅', title:'Betway — обзор букмекера', meta:'Бонус €30 • Рейтинг 9.0', tags:'betway букмекер uk лицензия футбол теннис' },
+  { sec:'bk', icon:'🎯', title:'Mostbet — обзор букмекера', meta:'Бонус 100% • Рейтинг 8.6', tags:'mostbet букмекер снг киберспорт крипто' },
+  { sec:'bk', icon:'🔥', title:'Melbet — обзор букмекера', meta:'Фрибет €30 • Рейтинг 8.4', tags:'melbet фрибет экспрессы тото акции' },
+  // CASINO
+  { sec:'casino', icon:'👑', title:'Pin-Up Casino — обзор казино', meta:'100% + 250 ФС • Рейтинг 9.3', tags:'pin up казино фриспины бонус снг слоты' },
+  { sec:'casino', icon:'💎', title:'LeoVegas — обзор казино', meta:'200 ФС • Рейтинг 9.1', tags:'leovegas мобильное казино фриспины европа' },
+  { sec:'casino', icon:'🚀', title:'Stake — обзор криптоказино', meta:'Без KYC • Рейтинг 9.0', tags:'stake крипто казино bitcoin анонимно без kyc' },
+  { sec:'casino', icon:'⭐', title:'22Bet Casino — обзор казино', meta:'Бонус €300 • Рейтинг 8.7', tags:'22bet казино бонус слоты быстрые выплаты' },
+  { sec:'casino', icon:'🎭', title:'BitStarz — обзор криптоказино', meta:'20 ФС без депо • Рейтинг 9.2', tags:'bitstarz крипто фриспины без депозита bitcoin' },
+  { sec:'casino', icon:'🏆', title:'Jackpot City — обзор казино', meta:'Бонус €1600 • Рейтинг 8.9', tags:'jackpot city джекпот казино microgaming' },
+  // PROMOS
+  { sec:'promos', icon:'👑', title:'Промокод Pin-Up Casino: JACKPOT2025', meta:'100% + 250 ФС • Вейджер ×40', tags:'pin up промокод бонус фриспины депозит jackpot2025' },
+  { sec:'promos', icon:'🚀', title:'Промокод Stake: STAKEBACK', meta:'15% кэшбек без вейджера', tags:'stake кэшбек промокод stakeback' },
+  { sec:'promos', icon:'⚡', title:'Промокод 1xBet: 1XJACK150', meta:'€150 на первый депозит', tags:'1xbet промокод бонус 1xjack150 спорт' },
+  { sec:'promos', icon:'🎭', title:'Промокод BitStarz: BITZREG20', meta:'20 ФС без депозита', tags:'bitstarz промокод фриспины без депозита bitzreg20' },
+  { sec:'promos', icon:'💎', title:'Промокод LeoVegas: LEOVIP1000', meta:'€1000 + 200 ФС', tags:'leovegas промокод бонус leovip1000' },
+  { sec:'promos', icon:'🎯', title:'Фрибет Melbet: MELJACK30', meta:'Фрибет €30', tags:'melbet фрибет промокод meljack30' },
+];
+
+const SEC_LABELS = { news:'НОВОСТИ', slots:'СЛОТЫ', bk:'БУКМЕКЕРЫ', casino:'КАЗИНО', promos:'БОНУСЫ' };
+
+function highlight(text, query) {
+  if (!query) return text;
+  const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function doSearch(q) {
+  const box = document.getElementById('searchResults');
+  q = q.trim();
+  if (q.length < 2) { box.innerHTML = ''; box.classList.remove('open'); return; }
+
+  const ql = q.toLowerCase();
+  const hits = SEARCH_INDEX.filter(it =>
+    it.title.toLowerCase().includes(ql) ||
+    it.tags.toLowerCase().includes(ql) ||
+    it.meta.toLowerCase().includes(ql)
+  ).slice(0, 12);
+
+  if (!hits.length) {
+    box.innerHTML = `<div class="sr-empty">🔍 Ничего не найдено по «${q}»</div>`;
+    box.classList.add('open'); return;
+  }
+
+  // group by section
+  const groups = {};
+  hits.forEach(h => { (groups[h.sec] = groups[h.sec]||[]).push(h); });
+
+  let html = '';
+  for (const [sec, items] of Object.entries(groups)) {
+    html += `<div class="sr-section">${SEC_LABELS[sec]||sec}</div>`;
+    items.forEach(it => {
+      html += `<div class="sr-item" onclick="showSec('${it.sec}');closeSearch()">
+        <div class="sr-icon">${it.icon}</div>
+        <div>
+          <div class="sr-title">${highlight(it.title, q)}</div>
+          <div class="sr-meta">${it.meta}</div>
+        </div>
+      </div>`;
+    });
+  }
+  box.innerHTML = html;
+  box.classList.add('open');
+}
+
+function toggleSearchDrop(state) {
+  const box = document.getElementById('searchResults');
+  const val = document.getElementById('searchInput').value.trim();
+  if (state && val.length >= 2) box.classList.add('open');
+}
+
+function closeSearch() {
+  document.getElementById('searchResults').classList.remove('open');
+  document.getElementById('searchInput').value = '';
+}
+
+// close search on outside click
+document.addEventListener('click', e => {
+  if (!document.getElementById('searchWrap').contains(e.target)) {
+    document.getElementById('searchResults').classList.remove('open');
+  }
+});
+
+/* ════════════════════════════════════════
+   LANGUAGE SWITCHER
+════════════════════════════════════════ */
+const LANG_KEYS = ['ru','en','ua','kz','uz','pl','de','fr','pt','es','ca','hi','tr'];
+
+const LANGS = {
+  ru: {
+    flag:'🇷🇺', code:'RU',
+    topbar:'⚠ МАТЕРИАЛЫ ПРЕДНАЗНАЧЕНЫ ДЛЯ ЛИЦ СТАРШЕ 18 ЛЕТ • АЗАРТНЫЕ ИГРЫ НЕСУТ ФИНАНСОВЫЕ РИСКИ • ИГРАЙТЕ ОТВЕТСТВЕННО',
+    nav:['НОВОСТИ','СЛОТЫ','БК','КАЗИНО','БОНУСЫ'],
+    botBtn:'🤖 БОТ-ПОДБОРЩИК', tgBtn:'✈️ TG‑КАНАЛ',
+    search:'Поиск по сайту...',
+    heroBadge:'🔥 ГЛАВНЫЙ ИСТОЧНИК НОВОСТЕЙ ГЕМБЛИНГА',
+    heroH1:'Всё о гемблинге<br>и <em>беттинге</em> — здесь',
+    heroSub:'Актуальные новости, честные обзоры казино, букмекеров и слотов. Эксклюзивные бонусы и промокоды от лучших платформ.',
+    heroBtnP:'🎁 Все бонусы', heroBtnS:'🤖 Подобрать слот',
+    statLabels:['ОБЗОРОВ КАЗИНО','ПРОМОКОДОВ','ОБЗОРОВ СЛОТОВ','ЧИТАТЕЛЕЙ'],
+    secNews:'Главные', secNewsSub:'новости',
+    secFresh:'Свежие', secFreshSub:'материалы',
+    seeAll:'ВСЕ НОВОСТИ →',
+    tgCta:'Подпишись на', tgCtaSub:'Telegram‑канал',
+    tgCtaDesc:'Ежедневные обзоры, эксклюзивные бонусы и горячие новости — первыми в нашем канале.',
+    tgCtaBtn:'✈️ ПОДПИСАТЬСЯ НА КАНАЛ',
+    tgNums:['47K+','Каждый день','Бесплатно'],
+    tgNumL:['Подписчиков','Новые материалы','Полный доступ'],
+    slotsTitle:'Обзоры', slotsSub:'слотов',
+    bkTitle:'Обзоры', bkSub:'букмекеров',
+    casinoTitle:'Обзоры', casinoSub:'казино',
+    promosTitle:'Бонусы и', promosSub:'промокоды',
+    readBtn:'ЧИТАТЬ ОБЗОР', copyBtn:'КОПИРОВАТЬ', getBonus:'ПОЛУЧИТЬ БОНУС',
+    botTitle:'Бот подбора', botSub:'слотов',
+    botDesc:'Расскажи боту свои предпочтения — и за 30 секунд он найдёт идеальный слот именно для тебя',
+    botOpenBtn:'✈️ ОТКРЫТЬ БОТА В TELEGRAM',
+    botHowTitle:'Как это', botHowSub:'работает?',
+    botPickBtn:'🎰 ПОДОБРАТЬ СЛОТ СЕЙЧАС',
+    botBannerTitle:'Не знаешь какой слот выбрать?',
+    botBannerDesc:'Наш Telegram‑бот подберёт слот по волатильности, теме, провайдеру и RTP — за 30 секунд',
+    botBannerBtn:'🤖 ОТКРЫТЬ БОТА',
+    footDesc:'Ведущий медиа‑ресурс о гемблинге и беттинге. Честные обзоры, актуальные новости и эксклюзивные промокоды.',
+    footCols:['РАЗДЕЛЫ','СЕРВИСЫ','ИНФОРМАЦИЯ'],
+    footLinks:[['Новости','Обзоры слотов','Букмекеры','Казино','Бонусы и промокоды'],['Бот подбора слотов','Telegram‑канал'],['О проекте','Реклама','Конфиденциальность','Ответственная игра','Контакты']],
+    copyright:'© 2025 JackpotMedia. Все права защищены.',
+    age18:'Только для совершеннолетних',
+    srLabels:{news:'НОВОСТИ',slots:'СЛОТЫ',bk:'БУКМЕКЕРЫ',casino:'КАЗИНО',promos:'БОНУСЫ'},
+    srEmpty:'Ничего не найдено по',
+  },
+  en: {
+    flag:'🇬🇧', code:'EN',
+    topbar:'⚠ CONTENT IS INTENDED FOR PERSONS OVER 18 YEARS OLD • GAMBLING CARRIES FINANCIAL RISKS • GAMBLE RESPONSIBLY',
+    nav:['NEWS','SLOTS','BOOKMAKERS','CASINO','BONUSES'],
+    botBtn:'🤖 SLOT PICKER BOT', tgBtn:'✈️ TG CHANNEL',
+    search:'Search the site...',
+    heroBadge:'🔥 THE #1 GAMBLING NEWS SOURCE',
+    heroH1:'Everything about <em>gambling</em><br>& betting — here',
+    heroSub:'Breaking news, honest reviews of casinos, bookmakers and slots. Exclusive bonuses and promo codes from top platforms.',
+    heroBtnP:'🎁 All Bonuses', heroBtnS:'🤖 Find a Slot',
+    statLabels:['CASINO REVIEWS','PROMO CODES','SLOT REVIEWS','READERS'],
+    secNews:'Top', secNewsSub:'News',
+    secFresh:'Latest', secFreshSub:'Articles',
+    seeAll:'ALL NEWS →',
+    tgCta:'Subscribe to our', tgCtaSub:'Telegram Channel',
+    tgCtaDesc:'Daily reviews, exclusive bonuses and breaking news — be first in our channel.',
+    tgCtaBtn:'✈️ JOIN THE CHANNEL',
+    tgNums:['47K+','Daily','Free'],
+    tgNumL:['Subscribers','New Content','Full Access'],
+    slotsTitle:'Slot', slotsSub:'Reviews',
+    bkTitle:'Bookmaker', bkSub:'Reviews',
+    casinoTitle:'Casino', casinoSub:'Reviews',
+    promosTitle:'Bonuses &', promosSub:'Promo Codes',
+    readBtn:'READ REVIEW', copyBtn:'COPY', getBonus:'CLAIM BONUS',
+    botTitle:'Slot', botSub:'Picker Bot',
+    botDesc:'Tell the bot your preferences — in 30 seconds it will find the perfect slot for you',
+    botOpenBtn:'✈️ OPEN BOT IN TELEGRAM',
+    botHowTitle:'How does it', botHowSub:'work?',
+    botPickBtn:'🎰 FIND MY SLOT NOW',
+    botBannerTitle:"Don't know which slot to pick?",
+    botBannerDesc:'Our Telegram bot selects a slot by volatility, theme, provider and RTP — in 30 seconds',
+    botBannerBtn:'🤖 OPEN BOT',
+    footDesc:'Leading gambling & betting media resource. Honest reviews, breaking news and exclusive promo codes.',
+    footCols:['SECTIONS','SERVICES','INFO'],
+    footLinks:[['News','Slot Reviews','Bookmakers','Casino','Bonuses & Promo Codes'],['Slot Picker Bot','Telegram Channel'],['About','Advertise','Privacy Policy','Responsible Gambling','Contact']],
+    copyright:'© 2025 JackpotMedia. All rights reserved.',
+    age18:'18+ Only',
+    srLabels:{news:'NEWS',slots:'SLOTS',bk:'BOOKMAKERS',casino:'CASINO',promos:'BONUSES'},
+    srEmpty:'Nothing found for',
+  },
+  ua: {
+    flag:'🇺🇦', code:'UA',
+    topbar:'⚠ МАТЕРІАЛИ ПРИЗНАЧЕНІ ДЛЯ ОСІБ СТАРШЕ 18 РОКІВ • АЗАРТНІ ІГРИ НЕСУТЬ ФІНАНСОВІ РИЗИКИ • ГРАЙТЕ ВІДПОВІДАЛЬНО',
+    nav:['НОВИНИ','СЛОТИ','БК','КАЗИНО','БОНУСИ'],
+    botBtn:'🤖 БОТ-ПІДБІРНИК', tgBtn:'✈️ TG‑КАНАЛ',
+    search:'Пошук по сайту...',
+    heroBadge:'🔥 ГОЛОВНЕ ДЖЕРЕЛО НОВИН ГЕМБЛІНГУ',
+    heroH1:'Все про гемблінг<br>та <em>беттинг</em> — тут',
+    heroSub:'Актуальні новини, чесні огляди казино, букмекерів та слотів. Ексклюзивні бонуси та промокоди від найкращих платформ.',
+    heroBtnP:'🎁 Усі бонуси', heroBtnS:'🤖 Підібрати слот',
+    statLabels:['ОГЛЯДІВ КАЗИНО','ПРОМОКОДІВ','ОГЛЯДІВ СЛОТІВ','ЧИТАЧІВ'],
+    secNews:'Головні', secNewsSub:'новини',
+    secFresh:'Свіжі', secFreshSub:'матеріали',
+    seeAll:'УСІ НОВИНИ →',
+    tgCta:'Підпишись на наш', tgCtaSub:'Telegram‑канал',
+    tgCtaDesc:'Щоденні огляди, ексклюзивні бонуси та гарячі новини — першими в нашому каналі.',
+    tgCtaBtn:'✈️ ПІДПИСАТИСЯ НА КАНАЛ',
+    tgNums:['47K+','Щодня','Безкоштовно'],
+    tgNumL:['Підписників','Нові матеріали','Повний доступ'],
+    slotsTitle:'Огляди', slotsSub:'слотів',
+    bkTitle:'Огляди', bkSub:'букмекерів',
+    casinoTitle:'Огляди', casinoSub:'казино',
+    promosTitle:'Бонуси та', promosSub:'промокоди',
+    readBtn:'ЧИТАТИ ОГЛЯД', copyBtn:'КОПІЮВАТИ', getBonus:'ОТРИМАТИ БОНУС',
+    botTitle:'Бот підбору', botSub:'слотів',
+    botDesc:'Розкажи боту свої вподобання — і за 30 секунд він знайде ідеальний слот саме для тебе',
+    botOpenBtn:'✈️ ВІДКРИТИ БОТА В TELEGRAM',
+    botHowTitle:'Як це', botHowSub:'працює?',
+    botPickBtn:'🎰 ПІДІБРАТИ СЛОТ ЗАРАЗ',
+    botBannerTitle:'Не знаєш який слот вибрати?',
+    botBannerDesc:'Наш Telegram‑бот підбере слот за волатильністю, темою, провайдером і RTP — за 30 секунд',
+    botBannerBtn:'🤖 ВІДКРИТИ БОТА',
+    footDesc:'Провідний медіа‑ресурс про гемблінг та беттинг. Чесні огляди, актуальні новини та ексклюзивні промокоди.',
+    footCols:['РОЗДІЛИ','СЕРВІСИ','ІНФОРМАЦІЯ'],
+    footLinks:[['Новини','Огляди слотів','Букмекери','Казино','Бонуси та промокоди'],['Бот підбору слотів','Telegram‑канал'],['Про проект','Реклама','Конфіденційність','Відповідальна гра','Контакти']],
+    copyright:'© 2025 JackpotMedia. Усі права захищені.',
+    age18:'Тільки для повнолітніх',
+    srLabels:{news:'НОВИНИ',slots:'СЛОТИ',bk:'БУКМЕКЕРИ',casino:'КАЗИНО',promos:'БОНУСИ'},
+    srEmpty:'Нічого не знайдено за запитом',
+  },
+  kz: {
+    flag:'🇰🇿', code:'KZ',
+    topbar:'⚠ МАЗМҰН 18 ЖАСТАН АСҚАН АДАМДАРҒА АРНАЛҒАН • АЗАРТ ОЙЫНДАРЫ ҚАРЖЫЛЫҚ ТӘУЕКЕЛ ТУҒЫЗАДЫ • ЖАУАПТЫ ОЙНАҢЫЗ',
+    nav:['ЖАҢАЛЫҚТАР','СЛОТТАР','БК','КАЗИНО','БОНУСТАР'],
+    botBtn:'🤖 СЛОТ ТАҢДАУШЫ', tgBtn:'✈️ TG‑АРНА',
+    search:'Сайтта іздеу...',
+    heroBadge:'🔥 ГЕМБЛИНГ ЖАҢАЛЫҚТАРЫНЫҢ БАСТЫ КӨЗІ',
+    heroH1:'Гемблинг және<br><em>беттинг</em> туралы — мұнда',
+    heroSub:'Өзекті жаңалықтар, казино, букмекерлер мен слоттардың адал шолулары. Үздік платформалардан эксклюзивті бонустар мен промокодтар.',
+    heroBtnP:'🎁 Барлық бонустар', heroBtnS:'🤖 Слот таңдау',
+    statLabels:['КАЗИНО ШОЛУЛАРЫ','ПРОМОКОДТАР','СЛОТ ШОЛУЛАРЫ','ОҚЫРМАНДАР'],
+    secNews:'Басты', secNewsSub:'жаңалықтар',
+    secFresh:'Соңғы', secFreshSub:'материалдар',
+    seeAll:'БАРЛЫҚ ЖАҢАЛЫҚТАР →',
+    tgCta:'Біздің', tgCtaSub:'Telegram‑арнаға жазылыңыз',
+    tgCtaDesc:'Күнделікті шолулар, эксклюзивті бонустар және ыстық жаңалықтар — біздің арнада бірінші болыңыз.',
+    tgCtaBtn:'✈️ АРНАҒА ЖАЗЫЛУ',
+    tgNums:['47K+','Күн сайын','Тегін'],
+    tgNumL:['Жазылушылар','Жаңа материалдар','Толық қолжетімділік'],
+    slotsTitle:'Слот', slotsSub:'шолулары',
+    bkTitle:'Букмекер', bkSub:'шолулары',
+    casinoTitle:'Казино', casinoSub:'шолулары',
+    promosTitle:'Бонустар мен', promosSub:'промокодтар',
+    readBtn:'ШОЛУДЫ ОҚУ', copyBtn:'КӨШІРУ', getBonus:'БОНУС АЛУ',
+    botTitle:'Слот таңдау', botSub:'боты',
+    botDesc:'Ботқа өз қалауларыңызды айтыңыз — 30 секундта ол сізге арнайы ең тамаша слотты табады',
+    botOpenBtn:'✈️ TELEGRAM‑ДА БОТТЫ АШУ',
+    botHowTitle:'Бұл қалай', botHowSub:'жұмыс істейді?',
+    botPickBtn:'🎰 ҚАЗІР СЛОТ ТАҢДАУ',
+    botBannerTitle:'Қандай слот таңдауды білмейсіз бе?',
+    botBannerDesc:'Telegram‑ботымыз волатильділік, тақырып, провайдер және RTP бойынша слот таңдайды — 30 секундта',
+    botBannerBtn:'🤖 БОТТЫ АШУ',
+    footDesc:'Гемблинг және беттинг туралы жетекші медиа‑ресурс. Адал шолулар, өзекті жаңалықтар және эксклюзивті промокодтар.',
+    footCols:['БӨЛІМДЕР','ҚЫЗМЕТТЕР','АҚПАРАТ'],
+    footLinks:[['Жаңалықтар','Слот шолулары','Букмекерлер','Казино','Бонустар мен промокодтар'],['Слот таңдау боты','Telegram‑арна'],['Жоба туралы','Жарнама','Құпиялылық','Жауапты ойын','Байланыс']],
+    copyright:'© 2025 JackpotMedia. Барлық құқықтар қорғалған.',
+    age18:'Тек кәмелетке толғандар үшін',
+    srLabels:{news:'ЖАҢАЛЫҚТАР',slots:'СЛОТТАР',bk:'БУКМЕКЕРЛЕР',casino:'КАЗИНО',promos:'БОНУСТАР'},
+    srEmpty:'Іздеу бойынша ештеңе табылмады',
+  },
+  uz: {
+    flag:'🇺🇿', code:'UZ',
+    topbar:'⚠ KONTENT 18 YOSHDAN KATTA SHAXSLAR UCHUN MO\'LJALLANGAN • QIMOR O\'YINLARI MOLIYAVIY XAVF TASHIYDI • MAS\'ULIYATLI O\'YNANG',
+    nav:['YANGILIKLAR','SLOTLAR','BK','KAZINO','BONUSLAR'],
+    botBtn:'🤖 SLOT TANLASH BOTI', tgBtn:'✈️ TG‑KANAL',
+    search:'Saytda qidirish...',
+    heroBadge:'🔥 GAMBLING YANGILIKLARI №1 MANBASI',
+    heroH1:'Gambling va<br><em>betting</em> haqida — bu yerda',
+    heroSub:'Dolzarb yangiliklar, kazino, bukmekerlar va slotlarning halol sharhlari. Eng yaxshi platformalardan eksklyuziv bonuslar va promokodlar.',
+    heroBtnP:'🎁 Barcha bonuslar', heroBtnS:'🤖 Slot tanlash',
+    statLabels:['KAZINO SHARHLARI','PROMOKODLAR','SLOT SHARHLARI','O\'QUVCHILAR'],
+    secNews:'Asosiy', secNewsSub:'yangiliklar',
+    secFresh:'Yangi', secFreshSub:'materiallar',
+    seeAll:'BARCHA YANGILIKLAR →',
+    tgCta:'Bizning', tgCtaSub:'Telegram‑kanalga obuna bo\'ling',
+    tgCtaDesc:'Kundalik sharhlar, eksklyuziv bonuslar va issiq yangiliklar — kanalimizda birinchi bo\'ling.',
+    tgCtaBtn:'✈️ KANALGA OBUNA BO\'LISH',
+    tgNums:['47K+','Har kuni','Bepul'],
+    tgNumL:['Obunachiar','Yangi materiallar','To\'liq kirish'],
+    slotsTitle:'Slot', slotsSub:'sharhlari',
+    bkTitle:'Bukmekerlar', bkSub:'sharhlari',
+    casinoTitle:'Kazino', casinoSub:'sharhlari',
+    promosTitle:'Bonuslar va', promosSub:'promokodlar',
+    readBtn:'SHARHNI O\'QISH', copyBtn:'NUSXALASH', getBonus:'BONUS OLISH',
+    botTitle:'Slot tanlash', botSub:'boti',
+    botDesc:'Botga o\'z xohishlaringizni ayting — 30 soniyada u siz uchun ideal slotni topadi',
+    botOpenBtn:'✈️ TELEGRAM\'DA BOTNI OCHISH',
+    botHowTitle:'Bu qanday', botHowSub:'ishlaydi?',
+    botPickBtn:'🎰 HOZIR SLOT TANLASH',
+    botBannerTitle:'Qaysi slotni tanlashni bilmaysizmi?',
+    botBannerDesc:'Telegram‑botimiz volatillik, mavzu, provayder va RTP bo\'yicha slot tanlaydi — 30 soniyada',
+    botBannerBtn:'🤖 BOTNI OCHISH',
+    footDesc:'Gambling va betting bo\'yicha yetakchi media‑resurs. Halol sharhlar, dolzarb yangiliklar va eksklyuziv promokodlar.',
+    footCols:['BO\'LIMLAR','XIZMATLAR','MA\'LUMOT'],
+    footLinks:[['Yangiliklar','Slot sharhlari','Bukmekerlar','Kazino','Bonuslar va promokodlar'],['Slot tanlash boti','Telegram‑kanal'],['Loyiha haqida','Reklama','Maxfiylik','Mas\'uliyatli o\'yin','Aloqa']],
+    copyright:'© 2025 JackpotMedia. Barcha huquqlar himoyalangan.',
+    age18:'Faqat kattalar uchun',
+    srLabels:{news:'YANGILIKLAR',slots:'SLOTLAR',bk:'BUKMEKERLAR',casino:'KAZINO',promos:'BONUSLAR'},
+    srEmpty:'So\'rov bo\'yicha hech narsa topilmadi',
+  },
+  pl: {
+    flag:'🇵🇱', code:'PL',
+    topbar:'⚠ TREŚCI PRZEZNACZONE DLA OSÓB POWYŻEJ 18 LAT • GRY HAZARDOWE NIOSĄ RYZYKO FINANSOWE • GRAJ ODPOWIEDZIALNIE',
+    nav:['NEWSY','SLOTY','BUKMACHERZY','KASYNO','BONUSY'],
+    botBtn:'🤖 BOT DO SLOTÓW', tgBtn:'✈️ KANAŁ TG',
+    search:'Szukaj na stronie...',
+    heroBadge:'🔥 GŁÓWNE ŹRÓDŁO NEWSÓW O HAZARDZIE',
+    heroH1:'Wszystko o hazardzie<br>i <em>zakładach</em> — tutaj',
+    heroSub:'Aktualne newsy, rzetelne recenzje kasyn, bukmacherów i slotów. Ekskluzywne bonusy i kody promocyjne od najlepszych platform.',
+    heroBtnP:'🎁 Wszystkie bonusy', heroBtnS:'🤖 Znajdź slot',
+    statLabels:['RECENZJI KASYN','KODÓW PROMO','RECENZJI SLOTÓW','CZYTELNIKÓW'],
+    secNews:'Główne', secNewsSub:'newsy',
+    secFresh:'Najnowsze', secFreshSub:'artykuły',
+    seeAll:'WSZYSTKIE NEWSY →',
+    tgCta:'Dołącz do naszego', tgCtaSub:'kanału Telegram',
+    tgCtaDesc:'Codzienne recenzje, ekskluzywne bonusy i gorące newsy — bądź pierwszy na naszym kanale.',
+    tgCtaBtn:'✈️ DOŁĄCZ DO KANAŁU',
+    tgNums:['47K+','Codziennie','Za darmo'],
+    tgNumL:['Subskrybentów','Nowe treści','Pełny dostęp'],
+    slotsTitle:'Recenzje', slotsSub:'slotów',
+    bkTitle:'Recenzje', bkSub:'bukmacherów',
+    casinoTitle:'Recenzje', casinoSub:'kasyn',
+    promosTitle:'Bonusy i', promosSub:'kody promo',
+    readBtn:'CZYTAJ RECENZJĘ', copyBtn:'KOPIUJ', getBonus:'ODBIERZ BONUS',
+    botTitle:'Bot do', botSub:'slotów',
+    botDesc:'Powiedz botowi swoje preferencje — w 30 sekund znajdzie idealny slot dla Ciebie',
+    botOpenBtn:'✈️ OTWÓRZ BOTA W TELEGRAM',
+    botHowTitle:'Jak to', botHowSub:'działa?',
+    botPickBtn:'🎰 ZNAJDŹ SLOT TERAZ',
+    botBannerTitle:'Nie wiesz, który slot wybrać?',
+    botBannerDesc:'Nasz bot Telegram dobiera slot według zmienności, motywu, dostawcy i RTP — w 30 sekund',
+    botBannerBtn:'🤖 OTWÓRZ BOTA',
+    footDesc:'Wiodący serwis mediowy o hazardzie i zakładach. Rzetelne recenzje, aktualne newsy i ekskluzywne kody promo.',
+    footCols:['SEKCJE','USŁUGI','INFORMACJE'],
+    footLinks:[['Newsy','Recenzje slotów','Bukmacherzy','Kasyno','Bonusy i kody promo'],['Bot do slotów','Kanał Telegram'],['O projekcie','Reklama','Prywatność','Odpowiedzialna gra','Kontakt']],
+    copyright:'© 2025 JackpotMedia. Wszelkie prawa zastrzeżone.',
+    age18:'Tylko dla pełnoletnich',
+    srLabels:{news:'NEWSY',slots:'SLOTY',bk:'BUKMACHERZY',casino:'KASYNO',promos:'BONUSY'},
+    srEmpty:'Nie znaleziono wyników dla',
+  },
+  de: {
+    flag:'🇩🇪', code:'DE',
+    topbar:'⚠ INHALTE NUR FÜR PERSONEN ÜBER 18 JAHRE • GLÜCKSSPIEL TRÄGT FINANZIELLE RISIKEN • SPIELEN SIE VERANTWORTUNGSVOLL',
+    nav:['NEWS','SLOTS','BUCHMACHER','CASINO','BONI'],
+    botBtn:'🤖 SLOT-FINDER BOT', tgBtn:'✈️ TG‑KANAL',
+    search:'Website durchsuchen...',
+    heroBadge:'🔥 DIE #1 GLÜCKSSPIEL-NEWSQUELLE',
+    heroH1:'Alles über Glücksspiel<br>und <em>Wetten</em> — hier',
+    heroSub:'Aktuelle Neuigkeiten, ehrliche Bewertungen von Casinos, Buchmachern und Slots. Exklusive Boni und Promo-Codes von Top-Plattformen.',
+    heroBtnP:'🎁 Alle Boni', heroBtnS:'🤖 Slot finden',
+    statLabels:['CASINO-BEWERTUNGEN','PROMO-CODES','SLOT-BEWERTUNGEN','LESER'],
+    secNews:'Top', secNewsSub:'Nachrichten',
+    secFresh:'Neueste', secFreshSub:'Artikel',
+    seeAll:'ALLE NACHRICHTEN →',
+    tgCta:'Abonnieren Sie unseren', tgCtaSub:'Telegram-Kanal',
+    tgCtaDesc:'Tägliche Bewertungen, exklusive Boni und aktuelle Nachrichten — seien Sie der Erste in unserem Kanal.',
+    tgCtaBtn:'✈️ KANAL ABONNIEREN',
+    tgNums:['47K+','Täglich','Kostenlos'],
+    tgNumL:['Abonnenten','Neue Inhalte','Vollzugriff'],
+    slotsTitle:'Slot', slotsSub:'Bewertungen',
+    bkTitle:'Buchmacher', bkSub:'Bewertungen',
+    casinoTitle:'Casino', casinoSub:'Bewertungen',
+    promosTitle:'Boni &', promosSub:'Promo-Codes',
+    readBtn:'BEWERTUNG LESEN', copyBtn:'KOPIEREN', getBonus:'BONUS ERHALTEN',
+    botTitle:'Slot-Finder', botSub:'Bot',
+    botDesc:'Teilen Sie dem Bot Ihre Vorlieben mit — in 30 Sekunden findet er den perfekten Slot für Sie',
+    botOpenBtn:'✈️ BOT IN TELEGRAM ÖFFNEN',
+    botHowTitle:'Wie funktioniert', botHowSub:'das?',
+    botPickBtn:'🎰 JETZT SLOT FINDEN',
+    botBannerTitle:'Wissen Sie nicht, welchen Slot Sie wählen sollen?',
+    botBannerDesc:'Unser Telegram-Bot wählt einen Slot nach Volatilität, Thema, Anbieter und RTP — in 30 Sekunden',
+    botBannerBtn:'🤖 BOT ÖFFNEN',
+    footDesc:'Führende Medienplattform für Glücksspiel und Wetten. Ehrliche Bewertungen, aktuelle News und exklusive Promo-Codes.',
+    footCols:['ABSCHNITTE','DIENSTE','INFO'],
+    footLinks:[['News','Slot-Bewertungen','Buchmacher','Casino','Boni & Promo-Codes'],['Slot-Finder Bot','Telegram-Kanal'],['Über uns','Werbung','Datenschutz','Verantwortungsvolles Spielen','Kontakt']],
+    copyright:'© 2025 JackpotMedia. Alle Rechte vorbehalten.',
+    age18:'Nur für Volljährige',
+    srLabels:{news:'NEWS',slots:'SLOTS',bk:'BUCHMACHER',casino:'CASINO',promos:'BONI'},
+    srEmpty:'Keine Ergebnisse für',
+  },
+  fr: {
+    flag:'🇫🇷', code:'FR',
+    topbar:'⚠ CONTENU RÉSERVÉ AUX PERSONNES DE PLUS DE 18 ANS • LES JEUX D\'ARGENT COMPORTENT DES RISQUES FINANCIERS • JOUEZ DE FAÇON RESPONSABLE',
+    nav:['ACTUALITÉS','MACHINES','BOOKMAKERS','CASINO','BONUS'],
+    botBtn:'🤖 BOT MACHINES À SOUS', tgBtn:'✈️ CHAÎNE TG',
+    search:'Rechercher sur le site...',
+    heroBadge:'🔥 LA SOURCE N°1 D\'ACTUALITÉS GAMBLING',
+    heroH1:'Tout sur le jeu<br>et les <em>paris</em> — ici',
+    heroSub:'Actualités en temps réel, avis honnêtes sur les casinos, bookmakers et machines à sous. Bonus exclusifs et codes promo des meilleures plateformes.',
+    heroBtnP:'🎁 Tous les bonus', heroBtnS:'🤖 Trouver une machine',
+    statLabels:['AVIS CASINOS','CODES PROMO','AVIS MACHINES','LECTEURS'],
+    secNews:'Principales', secNewsSub:'actualités',
+    secFresh:'Derniers', secFreshSub:'articles',
+    seeAll:'TOUTES LES ACTUALITÉS →',
+    tgCta:'Rejoignez notre', tgCtaSub:'chaîne Telegram',
+    tgCtaDesc:'Avis quotidiens, bonus exclusifs et actualités brûlantes — soyez le premier sur notre chaîne.',
+    tgCtaBtn:'✈️ REJOINDRE LA CHAÎNE',
+    tgNums:['47K+','Chaque jour','Gratuit'],
+    tgNumL:['Abonnés','Nouveaux contenus','Accès complet'],
+    slotsTitle:'Avis', slotsSub:'machines à sous',
+    bkTitle:'Avis', bkSub:'bookmakers',
+    casinoTitle:'Avis', casinoSub:'casinos',
+    promosTitle:'Bonus &', promosSub:'codes promo',
+    readBtn:'LIRE L\'AVIS', copyBtn:'COPIER', getBonus:'OBTENIR LE BONUS',
+    botTitle:'Bot machines', botSub:'à sous',
+    botDesc:'Indiquez vos préférences au bot — en 30 secondes il trouvera la machine à sous parfaite pour vous',
+    botOpenBtn:'✈️ OUVRIR LE BOT SUR TELEGRAM',
+    botHowTitle:'Comment ça', botHowSub:'fonctionne ?',
+    botPickBtn:'🎰 TROUVER MA MACHINE',
+    botBannerTitle:'Vous ne savez pas quelle machine choisir ?',
+    botBannerDesc:'Notre bot Telegram sélectionne une machine par volatilité, thème, fournisseur et RTP — en 30 secondes',
+    botBannerBtn:'🤖 OUVRIR LE BOT',
+    footDesc:'Principale ressource médiatique sur le jeu et les paris. Avis honnêtes, actualités et codes promo exclusifs.',
+    footCols:['RUBRIQUES','SERVICES','INFORMATIONS'],
+    footLinks:[['Actualités','Avis machines','Bookmakers','Casino','Bonus & codes promo'],['Bot machines à sous','Chaîne Telegram'],['À propos','Publicité','Confidentialité','Jeu responsable','Contact']],
+    copyright:'© 2025 JackpotMedia. Tous droits réservés.',
+    age18:'Réservé aux majeurs',
+    srLabels:{news:'ACTUALITÉS',slots:'MACHINES',bk:'BOOKMAKERS',casino:'CASINO',promos:'BONUS'},
+    srEmpty:'Aucun résultat pour',
+  },
+  pt: {
+    flag:'🇧🇷', code:'PT',
+    topbar:'⚠ CONTEÚDO DESTINADO A MAIORES DE 18 ANOS • JOGOS DE AZAR ENVOLVEM RISCOS FINANCEIROS • JOGUE COM RESPONSABILIDADE',
+    nav:['NOTÍCIAS','SLOTS','APOSTAS','CASSINO','BÔNUS'],
+    botBtn:'🤖 BOT DE SLOTS', tgBtn:'✈️ CANAL TG',
+    search:'Pesquisar no site...',
+    heroBadge:'🔥 A FONTE Nº1 DE NOTÍCIAS DE GAMBLING',
+    heroH1:'Tudo sobre gambling<br>e <em>apostas</em> — aqui',
+    heroSub:'Notícias atualizadas, análises honestas de cassinos, casas de apostas e slots. Bônus exclusivos e códigos promo das melhores plataformas.',
+    heroBtnP:'🎁 Todos os bônus', heroBtnS:'🤖 Encontrar slot',
+    statLabels:['ANÁLISES DE CASSINOS','CÓDIGOS PROMO','ANÁLISES DE SLOTS','LEITORES'],
+    secNews:'Principais', secNewsSub:'notícias',
+    secFresh:'Últimas', secFreshSub:'publicações',
+    seeAll:'TODAS AS NOTÍCIAS →',
+    tgCta:'Assine nosso', tgCtaSub:'canal Telegram',
+    tgCtaDesc:'Análises diárias, bônus exclusivos e notícias quentes — seja o primeiro em nosso canal.',
+    tgCtaBtn:'✈️ ASSINAR O CANAL',
+    tgNums:['47K+','Todo dia','Grátis'],
+    tgNumL:['Assinantes','Novos conteúdos','Acesso completo'],
+    slotsTitle:'Análises de', slotsSub:'slots',
+    bkTitle:'Análises de', bkSub:'apostas',
+    casinoTitle:'Análises de', casinoSub:'cassinos',
+    promosTitle:'Bônus e', promosSub:'códigos promo',
+    readBtn:'LER ANÁLISE', copyBtn:'COPIAR', getBonus:'OBTER BÔNUS',
+    botTitle:'Bot de', botSub:'slots',
+    botDesc:'Diga ao bot suas preferências — em 30 segundos ele encontrará o slot perfeito para você',
+    botOpenBtn:'✈️ ABRIR BOT NO TELEGRAM',
+    botHowTitle:'Como', botHowSub:'funciona?',
+    botPickBtn:'🎰 ENCONTRAR MEU SLOT AGORA',
+    botBannerTitle:'Não sabe qual slot escolher?',
+    botBannerDesc:'Nosso bot Telegram seleciona um slot por volatilidade, tema, provedor e RTP — em 30 segundos',
+    botBannerBtn:'🤖 ABRIR BOT',
+    footDesc:'Principal recurso de mídia sobre gambling e apostas. Análises honestas, notícias atualizadas e códigos promo exclusivos.',
+    footCols:['SEÇÕES','SERVIÇOS','INFORMAÇÕES'],
+    footLinks:[['Notícias','Análises de slots','Casas de apostas','Cassino','Bônus e códigos promo'],['Bot de slots','Canal Telegram'],['Sobre','Publicidade','Privacidade','Jogo responsável','Contato']],
+    copyright:'© 2025 JackpotMedia. Todos os direitos reservados.',
+    age18:'Somente para maiores de idade',
+    srLabels:{news:'NOTÍCIAS',slots:'SLOTS',bk:'APOSTAS',casino:'CASSINO',promos:'BÔNUS'},
+    srEmpty:'Nenhum resultado para',
+  },
+  es: {
+    flag:'🇨🇱', code:'ES',
+    topbar:'⚠ CONTENIDO PARA MAYORES DE 18 AÑOS • LOS JUEGOS DE AZAR IMPLICAN RIESGOS FINANCIEROS • JUEGA DE FORMA RESPONSABLE',
+    nav:['NOTICIAS','SLOTS','APUESTAS','CASINO','BONOS'],
+    botBtn:'🤖 BOT DE SLOTS', tgBtn:'✈️ CANAL TG',
+    search:'Buscar en el sitio...',
+    heroBadge:'🔥 LA FUENTE Nº1 DE NOTICIAS DE GAMBLING',
+    heroH1:'Todo sobre gambling<br>y <em>apuestas</em> — aquí',
+    heroSub:'Noticias actualizadas, reseñas honestas de casinos, casas de apuestas y slots. Bonos exclusivos y códigos promo de las mejores plataformas.',
+    heroBtnP:'🎁 Todos los bonos', heroBtnS:'🤖 Encontrar slot',
+    statLabels:['RESEÑAS DE CASINOS','CÓDIGOS PROMO','RESEÑAS DE SLOTS','LECTORES'],
+    secNews:'Principales', secNewsSub:'noticias',
+    secFresh:'Últimas', secFreshSub:'publicaciones',
+    seeAll:'TODAS LAS NOTICIAS →',
+    tgCta:'Únete a nuestro', tgCtaSub:'canal de Telegram',
+    tgCtaDesc:'Reseñas diarias, bonos exclusivos y noticias calientes — sé el primero en nuestro canal.',
+    tgCtaBtn:'✈️ UNIRSE AL CANAL',
+    tgNums:['47K+','Cada día','Gratis'],
+    tgNumL:['Suscriptores','Nuevo contenido','Acceso completo'],
+    slotsTitle:'Reseñas de', slotsSub:'slots',
+    bkTitle:'Reseñas de', bkSub:'apuestas',
+    casinoTitle:'Reseñas de', casinoSub:'casinos',
+    promosTitle:'Bonos y', promosSub:'códigos promo',
+    readBtn:'LEER RESEÑA', copyBtn:'COPIAR', getBonus:'OBTENER BONO',
+    botTitle:'Bot de', botSub:'slots',
+    botDesc:'Dile al bot tus preferencias — en 30 segundos encontrará el slot perfecto para ti',
+    botOpenBtn:'✈️ ABRIR BOT EN TELEGRAM',
+    botHowTitle:'¿Cómo', botHowSub:'funciona?',
+    botPickBtn:'🎰 ENCONTRAR MI SLOT AHORA',
+    botBannerTitle:'¿No sabes qué slot elegir?',
+    botBannerDesc:'Nuestro bot de Telegram selecciona un slot por volatilidad, tema, proveedor y RTP — en 30 segundos',
+    botBannerBtn:'🤖 ABRIR BOT',
+    footDesc:'Principal recurso de medios sobre gambling y apuestas. Reseñas honestas, noticias actualizadas y códigos promo exclusivos.',
+    footCols:['SECCIONES','SERVICIOS','INFORMACIÓN'],
+    footLinks:[['Noticias','Reseñas de slots','Casas de apuestas','Casino','Bonos y códigos promo'],['Bot de slots','Canal Telegram'],['Acerca de','Publicidad','Privacidad','Juego responsable','Contacto']],
+    copyright:'© 2025 JackpotMedia. Todos los derechos reservados.',
+    age18:'Solo para mayores de edad',
+    srLabels:{news:'NOTICIAS',slots:'SLOTS',bk:'APUESTAS',casino:'CASINO',promos:'BONOS'},
+    srEmpty:'No se encontraron resultados para',
+  },
+  ca: {
+    flag:'🇨🇦', code:'CA',
+    topbar:'⚠ CONTENT FOR PERSONS 18+ ONLY • GAMBLING INVOLVES FINANCIAL RISK • PLEASE GAMBLE RESPONSIBLY',
+    nav:['NEWS','SLOTS','SPORTSBOOKS','CASINO','BONUSES'],
+    botBtn:'🤖 SLOT FINDER BOT', tgBtn:'✈️ TG CHANNEL',
+    search:'Search the site...',
+    heroBadge:'🔥 CANADA\'S #1 GAMBLING NEWS SOURCE',
+    heroH1:'Everything about gambling<br>& <em>sports betting</em> — here',
+    heroSub:'Up-to-date news, honest reviews of casinos, sportsbooks and slots. Exclusive bonuses and promo codes from top Canadian platforms.',
+    heroBtnP:'🎁 All Bonuses', heroBtnS:'🤖 Find a Slot',
+    statLabels:['CASINO REVIEWS','PROMO CODES','SLOT REVIEWS','READERS'],
+    secNews:'Top', secNewsSub:'Stories',
+    secFresh:'Latest', secFreshSub:'Articles',
+    seeAll:'ALL NEWS →',
+    tgCta:'Subscribe to our', tgCtaSub:'Telegram Channel',
+    tgCtaDesc:'Daily reviews, exclusive bonuses and breaking news — be the first on our channel.',
+    tgCtaBtn:'✈️ JOIN THE CHANNEL',
+    tgNums:['47K+','Daily','Free'],
+    tgNumL:['Subscribers','New Content','Full Access'],
+    slotsTitle:'Slot', slotsSub:'Reviews',
+    bkTitle:'Sportsbook', bkSub:'Reviews',
+    casinoTitle:'Casino', casinoSub:'Reviews',
+    promosTitle:'Bonuses &', promosSub:'Promo Codes',
+    readBtn:'READ REVIEW', copyBtn:'COPY', getBonus:'CLAIM BONUS',
+    botTitle:'Slot Finder', botSub:'Bot',
+    botDesc:'Tell the bot your preferences — in 30 seconds it will find the perfect slot for you',
+    botOpenBtn:'✈️ OPEN BOT IN TELEGRAM',
+    botHowTitle:'How does it', botHowSub:'work?',
+    botPickBtn:'🎰 FIND MY SLOT NOW',
+    botBannerTitle:"Not sure which slot to choose?",
+    botBannerDesc:'Our Telegram bot picks a slot by volatility, theme, provider and RTP — in 30 seconds',
+    botBannerBtn:'🤖 OPEN BOT',
+    footDesc:'Canada\'s leading gambling & betting media. Honest reviews, breaking news and exclusive promo codes.',
+    footCols:['SECTIONS','SERVICES','INFO'],
+    footLinks:[['News','Slot Reviews','Sportsbooks','Casino','Bonuses & Promo Codes'],['Slot Finder Bot','Telegram Channel'],['About','Advertise','Privacy Policy','Responsible Gambling','Contact']],
+    copyright:'© 2025 JackpotMedia. All rights reserved.',
+    age18:'19+ in ON, MB, QC — 18+ elsewhere',
+    srLabels:{news:'NEWS',slots:'SLOTS',bk:'SPORTSBOOKS',casino:'CASINO',promos:'BONUSES'},
+    srEmpty:'No results found for',
+  },
+  hi: {
+    flag:'🇮🇳', code:'HI',
+    topbar:'⚠ सामग्री केवल 18 वर्ष से अधिक आयु के व्यक्तियों के लिए है • जुए में वित्तीय जोखिम होता है • जिम्मेदारी से खेलें',
+    nav:['समाचार','स्लॉट','बुकमेकर','कैसीनो','बोनस'],
+    botBtn:'🤖 स्लॉट बॉट', tgBtn:'✈️ TG चैनल',
+    search:'साइट पर खोजें...',
+    heroBadge:'🔥 गैंबलिंग न्यूज़ का नंबर 1 स्रोत',
+    heroH1:'गैंबलिंग और<br><em>बेटिंग</em> के बारे में सब — यहाँ',
+    heroSub:'ताज़ा समाचार, कैसीनो, बुकमेकर और स्लॉट की ईमानदार समीक्षाएँ। शीर्ष प्लेटफ़ॉर्म से एक्सक्लूसिव बोनस और प्रोमो कोड।',
+    heroBtnP:'🎁 सभी बोनस', heroBtnS:'🤖 स्लॉट खोजें',
+    statLabels:['कैसीनो समीक्षाएँ','प्रोमो कोड','स्लॉट समीक्षाएँ','पाठक'],
+    secNews:'मुख्य', secNewsSub:'समाचार',
+    secFresh:'नवीनतम', secFreshSub:'लेख',
+    seeAll:'सभी समाचार →',
+    tgCta:'हमारे', tgCtaSub:'Telegram चैनल से जुड़ें',
+    tgCtaDesc:'दैनिक समीक्षाएँ, एक्सक्लूसिव बोनस और ताज़ा समाचार — हमारे चैनल पर सबसे पहले।',
+    tgCtaBtn:'✈️ चैनल से जुड़ें',
+    tgNums:['47K+','हर दिन','मुफ़्त'],
+    tgNumL:['सब्सक्राइबर','नई सामग्री','पूर्ण पहुँच'],
+    slotsTitle:'स्लॉट', slotsSub:'समीक्षाएँ',
+    bkTitle:'बुकमेकर', bkSub:'समीक्षाएँ',
+    casinoTitle:'कैसीनो', casinoSub:'समीक्षाएँ',
+    promosTitle:'बोनस और', promosSub:'प्रोमो कोड',
+    readBtn:'समीक्षा पढ़ें', copyBtn:'कॉपी करें', getBonus:'बोनस पाएं',
+    botTitle:'स्लॉट', botSub:'बॉट',
+    botDesc:'बॉट को अपनी पसंद बताएं — 30 सेकंड में वह आपके लिए परफेक्ट स्लॉट खोज देगा',
+    botOpenBtn:'✈️ Telegram पर बॉट खोलें',
+    botHowTitle:'यह कैसे', botHowSub:'काम करता है?',
+    botPickBtn:'🎰 अभी स्लॉट खोजें',
+    botBannerTitle:'नहीं जानते कौन सा स्लॉट चुनें?',
+    botBannerDesc:'हमारा Telegram बॉट वोलेटिलिटी, थीम, प्रोवाइडर और RTP के अनुसार स्लॉट चुनता है — 30 सेकंड में',
+    botBannerBtn:'🤖 बॉट खोलें',
+    footDesc:'गैंबलिंग और बेटिंग का प्रमुख मीडिया रिसोर्स। ईमानदार समीक्षाएँ, ताज़ा समाचार और एक्सक्लूसिव प्रोमो कोड।',
+    footCols:['अनुभाग','सेवाएँ','जानकारी'],
+    footLinks:[['समाचार','स्लॉट समीक्षाएँ','बुकमेकर','कैसीनो','बोनस और प्रोमो कोड'],['स्लॉट बॉट','Telegram चैनल'],['हमारे बारे में','विज्ञापन','गोपनीयता','जिम्मेदार खेल','संपर्क']],
+    copyright:'© 2025 JackpotMedia. सर्वाधिकार सुरक्षित।',
+    age18:'केवल वयस्कों के लिए',
+    srLabels:{news:'समाचार',slots:'स्लॉट',bk:'बुकमेकर',casino:'कैसीनो',promos:'बोनस'},
+    srEmpty:'के लिए कोई परिणाम नहीं मिला',
+  },
+  tr: {
+    flag:'🇹🇷', code:'TR',
+    topbar:'⚠ İÇERİK 18 YAŞ ÜSTÜ KİŞİLER İÇİNDİR • KUMAR MALİ RİSK TAŞIR • SORUMLU OYNAYINIZ',
+    nav:['HABERLER','SLOTLAR','BAHIS','KUMARHANELERİ','BONUSLAR'],
+    botBtn:'🤖 SLOT SEÇİCİ BOT', tgBtn:'✈️ TG KANALI',
+    search:'Sitede ara...',
+    heroBadge:'🔥 1 NUMARALI KUMAR HABERLERİ KAYNAĞI',
+    heroH1:'Kumar ve<br><em>bahis</em> hakkında her şey — burada',
+    heroSub:'Güncel haberler, kumarhaneler, bahisçiler ve slotların dürüst incelemeleri. En iyi platformlardan özel bonuslar ve promosyon kodları.',
+    heroBtnP:'🎁 Tüm bonuslar', heroBtnS:'🤖 Slot bul',
+    statLabels:['KUMARHANELERİ İNCELEMELERİ','PROMO KODLAR','SLOT İNCELEMELERİ','OKUYUCULAR'],
+    secNews:'Öne Çıkan', secNewsSub:'Haberler',
+    secFresh:'En Son', secFreshSub:'Makaleler',
+    seeAll:'TÜM HABERLER →',
+    tgCta:'Telegram', tgCtaSub:'kanalımıza abone ol',
+    tgCtaDesc:'Günlük incelemeler, özel bonuslar ve sıcak haberler — kanalımızda ilk siz olun.',
+    tgCtaBtn:'✈️ KANALA ABONE OL',
+    tgNums:['47K+','Her gün','Ücretsiz'],
+    tgNumL:['Abone','Yeni içerikler','Tam erişim'],
+    slotsTitle:'Slot', slotsSub:'İncelemeleri',
+    bkTitle:'Bahisçi', bkSub:'İncelemeleri',
+    casinoTitle:'Kumarhane', casinoSub:'İncelemeleri',
+    promosTitle:'Bonuslar ve', promosSub:'Promo Kodlar',
+    readBtn:'İNCELEMEYİ OKU', copyBtn:'KOPYALA', getBonus:'BONUS AL',
+    botTitle:'Slot seçici', botSub:'bot',
+    botDesc:'Bota tercihlerinizi söyleyin — 30 saniyede sizin için mükemmel slotu bulacak',
+    botOpenBtn:'✈️ TELEGRAM\'DA BOTU AÇ',
+    botHowTitle:'Bu nasıl', botHowSub:'çalışır?',
+    botPickBtn:'🎰 ŞİMDİ SLOT BUL',
+    botBannerTitle:'Hangi slotu seçeceğinizi bilmiyor musunuz?',
+    botBannerDesc:'Telegram botumuz volatilite, tema, sağlayıcı ve RTP\'ye göre slot seçer — 30 saniyede',
+    botBannerBtn:'🤖 BOTU AÇ',
+    footDesc:'Kumar ve bahis üzerine önde gelen medya kaynağı. Dürüst incelemeler, güncel haberler ve özel promosyon kodları.',
+    footCols:['BÖLÜMLER','HİZMETLER','BİLGİ'],
+    footLinks:[['Haberler','Slot incelemeleri','Bahisçiler','Kumarhane','Bonuslar ve promo kodlar'],['Slot seçici bot','Telegram kanalı'],['Hakkımızda','Reklam','Gizlilik','Sorumlu oyun','İletişim']],
+    copyright:'© 2025 JackpotMedia. Tüm hakları saklıdır.',
+    age18:'Yalnızca yetişkinler için',
+    srLabels:{news:'HABERLER',slots:'SLOTLAR',bk:'BAHİSÇİLER',casino:'KUMARHANELERİ',promos:'BONUSLAR'},
+    srEmpty:'için sonuç bulunamadı',
+  },
+};
+
+let currentLang = 'ru';
+
+function toggleLang() {
+  const btn = document.getElementById('langBtn');
+  const drop = document.getElementById('langDrop');
+  btn.classList.toggle('open');
+  drop.classList.toggle('open');
+}
+
+function setLang(code) {
+  currentLang = code;
+  const L = LANGS[code];
+
+  // header flag/code
+  document.getElementById('langFlag').textContent = L.flag;
+  document.getElementById('langCode').textContent = L.code;
+
+  // close dropdown, mark active
+  document.getElementById('langDrop').classList.remove('open');
+  document.getElementById('langBtn').classList.remove('open');
+  document.querySelectorAll('.lang-opt').forEach((el,i) => {
+    el.classList.toggle('active', LANG_KEYS[i] === code);
+  });
+
+  // topbar
+  document.querySelector('.topbar').textContent = L.topbar;
+
+  // nav links
+  const navLinks = document.querySelectorAll('nav a:not(.btn-tg):not(.btn-bot)');
+  navLinks.forEach((a, i) => { if (L.nav[i]) a.textContent = L.nav[i]; });
+
+  // header buttons
+  document.getElementById('hdrBotBtn').textContent = L.botBtn;
+  document.getElementById('hdrTgBtn').textContent = L.tgBtn;
+
+  // search placeholder
+  document.getElementById('searchInput').placeholder = L.search;
+
+  // update search labels
+  Object.assign(SEC_LABELS, L.srLabels);
+
+  // hero
+  document.querySelector('.hero-badge').textContent = L.heroBadge || L.herobage || L.heroBadge || '🔥';
+  document.querySelector('.hero h1').innerHTML = L.heroH1;
+  document.querySelector('.hero-sub').textContent = L.heroSub;
+  document.querySelector('#heroBtnP').textContent = L.heroBtnP;
+  document.querySelector('#heroBtnS').textContent = L.heroBtnS;
+
+  // stat labels
+  document.querySelectorAll('.stat-l').forEach((el,i) => { if(L.statLabels[i]) el.textContent = L.statLabels[i]; });
+
+  // see all
+  document.querySelectorAll('.see-all').forEach(el => el.textContent = L.seeAll);
+
+  // section titles (using data-i18n attributes)
+  applyI18n('sec-news-title', `${L.secNews} <span>${L.secNewsSub}</span>`);
+  applyI18n('sec-fresh-title', `${L.secFresh} <span>${L.secFreshSub}</span>`);
+  applyI18n('tgcta-title', `${L.tgCta} <span style="color:#2BA6D9">${L.tgCtaSub}</span>`);
+  document.querySelectorAll('[data-i18n="tgcta-desc"]').forEach(el => el.textContent = L.tgCtaDesc);
+  document.querySelectorAll('[data-i18n="tgcta-btn"]').forEach(el => el.textContent = L.tgCtaBtn);
+  document.querySelectorAll('[data-tgnum]').forEach((el,i) => { if(L.tgNums[i]) el.textContent = L.tgNums[i]; });
+  document.querySelectorAll('[data-tgnuml]').forEach((el,i) => { if(L.tgNumL[i]) el.textContent = L.tgNumL[i]; });
+
+  applyI18n('sec-slots-title', `${L.slotsTitle} <span>${L.slotsSub}</span>`);
+  applyI18n('sec-bk-title', `${L.bkTitle} <span>${L.bkSub}</span>`);
+  applyI18n('sec-casino-title', `${L.casinoTitle} <span>${L.casinoSub}</span>`);
+  applyI18n('sec-promos-title', `${L.promosTitle} <span>${L.promosSub}</span>`);
+
+  // read / copy / get bonus buttons
+  document.querySelectorAll('.rbtn').forEach(el => el.textContent = L.readBtn);
+  document.querySelectorAll('.cbtn').forEach(el => el.textContent = L.copyBtn);
+  document.querySelectorAll('.plink').forEach(el => el.textContent = L.getBonus);
+
+  // bot page
+  applyI18n('bot-title', `${L.botTitle} <span style="color:#2BA6D9">${L.botSub}</span>`);
+  document.querySelectorAll('[data-i18n="bot-desc"]').forEach(el => el.textContent = L.botDesc);
+  document.querySelectorAll('[data-i18n="bot-open-btn"]').forEach(el => el.textContent = L.botOpenBtn);
+  applyI18n('bot-how', `${L.botHowTitle} <span style="color:var(--gold)">${L.botHowSub}</span>`);
+  document.querySelectorAll('[data-i18n="bot-pick-btn"]').forEach(el => el.textContent = L.botPickBtn);
+  document.querySelectorAll('[data-i18n="bot-banner-title"]').forEach(el => el.textContent = L.botBannerTitle);
+  document.querySelectorAll('[data-i18n="bot-banner-desc"]').forEach(el => el.textContent = L.botBannerDesc);
+  document.querySelectorAll('[data-i18n="bot-banner-btn"]').forEach(el => el.textContent = L.botBannerBtn);
+
+  // footer
+  document.querySelectorAll('[data-i18n="foot-desc"]').forEach(el => el.textContent = L.footDesc);
+  document.querySelectorAll('[data-i18n="copyright"]').forEach(el => el.textContent = L.copyright);
+  document.querySelectorAll('[data-i18n="age18"]').forEach(el => el.textContent = L.age18);
+  document.querySelectorAll('.foot-col-title').forEach((el,i) => { if(L.footCols[i]) el.textContent = L.footCols[i]; });
+  document.querySelectorAll('.foot-links').forEach((ul,gi) => {
+    ul.querySelectorAll('a').forEach((a,i) => { if(L.footLinks[gi] && L.footLinks[gi][i]) a.textContent = L.footLinks[gi][i]; });
+  });
+}
+
+function applyI18n(id, html) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = html;
+}
+
+// close lang on outside click
+document.addEventListener('click', e => {
+  if (!document.getElementById('langWrap').contains(e.target)) {
+    document.getElementById('langDrop').classList.remove('open');
+    document.getElementById('langBtn').classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>
